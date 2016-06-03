@@ -1,0 +1,5 @@
+D:\visualStudioProjects\Project\Project\bin\Debug\Project.dll
+D:\visualStudioProjects\Project\Project\bin\Debug\Project.pdb
+D:\visualStudioProjects\Project\Project\obj\Debug\Project.csprojResolveAssemblyReference.cache
+D:\visualStudioProjects\Project\Project\obj\Debug\Project.dll
+D:\visualStudioProjects\Project\Project\obj\Debug\Project.pdb

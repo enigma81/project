@@ -1,0 +1,8 @@
+D:\visualStudioProjects\Project\Project.App\bin\Debug\Project.App.exe.config
+D:\visualStudioProjects\Project\Project.App\bin\Debug\Project.App.exe
+D:\visualStudioProjects\Project\Project.App\bin\Debug\Project.App.pdb
+D:\visualStudioProjects\Project\Project.App\bin\Debug\Project.dll
+D:\visualStudioProjects\Project\Project.App\bin\Debug\Project.pdb
+D:\visualStudioProjects\Project\Project.App\obj\Debug\Project.App.csprojResolveAssemblyReference.cache
+D:\visualStudioProjects\Project\Project.App\obj\Debug\Project.App.exe
+D:\visualStudioProjects\Project\Project.App\obj\Debug\Project.App.pdb
