@@ -26,11 +26,21 @@ namespace Project.Code
 
         public static bool ValidateName(string name)
         {
+           
             if (name != "") return true;
             else
             {
                 error = "You need to insert value.";
                 return false;
+            }
+        }
+
+        public static void displayError()
+        {
+            if (Validator.error != "")
+            {
+                Console.WriteLine(Validator.error);
+                Validator.error = "";
             }
         }
     }

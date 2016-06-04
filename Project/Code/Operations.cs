@@ -10,33 +10,58 @@ namespace Project.Code
     {
         public const string O_enlist = "ENLIST", O_display = "DISPLAY";
 
-        public static void DisplayStudents(Student student)
+        //Funkcija za Display studenata
+        public static void DisplayStudents(List<Student> student)
         {
-            Console.WriteLine(student.Id + "\t" + student.FirstName + "\t" + 
-                student.LastName + "\t" + student.GPA);
+            List<Student> sortedStudent = student.OrderBy(o => o.LastName).ToList();
+            int i = 1;
+            Console.WriteLine("Students in a system:\n");
+            foreach (Student s in sortedStudent)
+            {
+                Console.WriteLine(i++.ToString()+"." + "  " + s.Id + "  " + s.FirstName + ", " +
+                s.LastName + " - " + s.GPA);
+            }
         }
 
+        //Funkcija za Enlist novog studenta
         public static Student newStudent()
         {
             Console.WriteLine("Student");
             Student newStudent = new Student();
+            string input;
+            
+            do
+            {
+                Validator.displayError();
+                Console.Write("First Name: ");
+                input = Console.ReadLine();                
+            } while (Validator.ValidateName(input) == false);
+            newStudent.FirstName = input;
 
             do
             {
-                if (Code.Validator.error != "")
-                {
-                    Console.WriteLine(Code.Validator.error);
-                    Code.Validator.error = "";
-                }
-                Console.Write("First Name: ");
-                newStudent.FirstName = Console.ReadLine();
-            } while (Validator.ValidateName(newStudent.FirstName) == false);
+                Validator.displayError();
+                Console.Write("Last Name: ");
+                input = Console.ReadLine();
+            } while (Validator.ValidateName(input) == false);
+            newStudent.LastName = input;
 
+            bool testGpa = false;
+            float gpa;
+            do {
+                Console.Write("GPA: ");
+                if (float.TryParse(Console.ReadLine(), out gpa))
+                {
+                    //Console.WriteLine(gpa);
+                    newStudent.GPA = gpa;
+                    testGpa = true;
+                }else
+                {
+                    Console.WriteLine("You need to insert numerical value.");
+                    testGpa = false;
+                }
+            } while (testGpa == false);
             
-            Console.Write("Last Name: ");
-            newStudent.LastName = Console.ReadLine();
-            Console.Write("GPA: ");
-            newStudent.GPA = Convert.ToDouble(Console.ReadLine());
             var generateID = StudentIdGenerator.getInstance;
             newStudent.Id = generateID.Id;
             return newStudent;

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Project.Code;
 
 namespace Project.App
 {
@@ -11,33 +12,25 @@ namespace Project.App
     {
         static void Main(string[] args)
         {
-            List<Code.Student> StudentContainer = new List<Code.Student>();
+            List<Student> StudentContainer = new List<Student>();
             string operation;
 
             start:
             do
             {
-                if (Code.Validator.error != "")
-                {
-                    Console.WriteLine(Code.Validator.error);
-                    Code.Validator.error = "";
-                }
+                Validator.displayError();
                 Console.WriteLine("Select operation: ENLIST/DISPLAY");
                 operation = Console.ReadLine().ToUpper();                
 
-            } while (Code.Validator.ValidateOperation(operation) == false);
+            } while (Validator.ValidateOperation(operation) == false);
 
             switch (operation)
             {
                 case "ENLIST":
-                    StudentContainer.Add(Code.Operations.newStudent());
+                    StudentContainer.Add(Operations.newStudent());
                     goto start;
-                    
                 case "DISPLAY":
-                    foreach (Code.Student student in StudentContainer)
-                    {
-                        Code.Operations.DisplayStudents(student);                        
-                    }
+                    Operations.DisplayStudents(StudentContainer);
                     break;
             }
       

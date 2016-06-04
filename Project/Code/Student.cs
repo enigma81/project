@@ -8,6 +8,6 @@ namespace Project.Code
 {
     public class Student : Person
     {
-        public double GPA { get; set; }
+        public float GPA { get; set; }
     }
 }
