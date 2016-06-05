@@ -66,6 +66,21 @@ namespace Project.Code
             newStudent.Id = generateID.Id;
             return newStudent;
         }
+
+        public static string selectOperation()
+        {
+            string operation;
+
+            do
+            {
+                Validator.displayError();
+                Console.WriteLine("Select operation: ENLIST/DISPLAY");
+                operation = Console.ReadLine().ToUpper();
+
+            } while (Validator.ValidateOperation(operation) == false);
+
+            return operation;
+        }
     }
 
     

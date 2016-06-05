@@ -15,14 +15,9 @@ namespace Project.App
             List<Student> StudentContainer = new List<Student>();
             string operation;
 
-            start:
-            do
-            {
-                Validator.displayError();
-                Console.WriteLine("Select operation: ENLIST/DISPLAY");
-                operation = Console.ReadLine().ToUpper();                
-
-            } while (Validator.ValidateOperation(operation) == false);
+        start:
+            
+            operation = Operations.selectOperation();
 
             switch (operation)
             {
