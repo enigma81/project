@@ -12,26 +12,26 @@ namespace Project.App
     {
         static void Main(string[] args)
         {
-            List<Student> StudentContainer = new List<Student>();
+           // List<Student> StudentContainer = new List<Student>();
             string operation;
+            bool exit = false;
 
-            start:
-            do
+            while (!exit)
             {
-                Validator.displayError();
-                Console.WriteLine("Select operation: ENLIST/DISPLAY");
-                operation = Console.ReadLine().ToUpper();                
+                operation = Operations.selectOperation();
 
-            } while (Validator.ValidateOperation(operation) == false);
-
-            switch (operation)
-            {
-                case "ENLIST":
-                    StudentContainer.Add(Operations.newStudent());
-                    goto start;
-                case "DISPLAY":
-                    Operations.DisplayStudents(StudentContainer);
-                    break;
+                switch (operation)
+                {
+                    case "ENLIST":
+                        StudentContainer.addStudentToList();
+                        break;
+                    case "DISPLAY":
+                        Operations.DisplayStudents();
+                        exit = true;
+                        break;
+                    default:
+                        break;
+                }
             }
       
             Console.ReadKey();
