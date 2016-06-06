@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Project.Code
 {
@@ -13,7 +11,7 @@ namespace Project.Code
         //Funkcija za Display studenata
         public static void DisplayStudents()
         {
-             List<Student> sortedStudent = StudentContainer.sortStudentList();
+            List<Student> sortedStudent = StudentContainer.sortStudentList();
             int i = 1;
             Console.WriteLine("Students in a system:\n");
             foreach (Student s in sortedStudent)

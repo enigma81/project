@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.Code
 {
@@ -27,7 +23,7 @@ namespace Project.Code
         public static bool ValidateName(string name)
         {
            
-            if (name != "") return true;
+            if (name != "" || name != null) return true;
             else
             {
                 error = "You need to insert value.";
