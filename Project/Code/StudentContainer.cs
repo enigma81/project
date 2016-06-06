@@ -15,7 +15,7 @@ namespace Project.Code
 
         public static List<Student> sortStudentList()
         {
-            return students.OrderBy(o => o.LastName).ToList();
+            return students.OrderBy(o => o.getLastname()).ToList();
         }
     }
 }

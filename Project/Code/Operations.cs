@@ -16,8 +16,8 @@ namespace Project.Code
             Console.WriteLine("Students in a system:\n");
             foreach (Student s in sortedStudent)
             {
-                Console.WriteLine(i++.ToString()+"." + "  " + s.Id + "  " + s.FirstName + ", " +
-                s.LastName + " - " + s.GPA);
+                Console.WriteLine(i++.ToString()+"." + "  " + s.getId() + "  " + s.getFirstname() + ", " +
+                s.getLastname() + " - " + s.GPA);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Project.Code
                 Console.Write("First Name: ");
                 input = Console.ReadLine();                
             } while (Validator.ValidateName(input) == false);
-            newStudent.FirstName = input;
+            newStudent.setFirstname(input);
 
             do
             {
@@ -42,7 +42,7 @@ namespace Project.Code
                 Console.Write("Last Name: ");
                 input = Console.ReadLine();
             } while (Validator.ValidateName(input) == false);
-            newStudent.LastName = input;
+            newStudent.setLastname(input);
 
             bool testGpa = false;
             float gpa;
@@ -77,7 +77,7 @@ namespace Project.Code
             } while (testGpa == false);
             
             var generateID = StudentIdGenerator.getInstance;
-            newStudent.Id = generateID.Id;
+            newStudent.setId(generateID.Id);
             return newStudent;
         }
 
