@@ -43,6 +43,7 @@
     <Compile Include="Code\Operations.cs" />
     <Compile Include="Code\Person.cs" />
     <Compile Include="Code\Student.cs" />
+    <Compile Include="Code\StudentContainer.cs" />
     <Compile Include="Code\StudentIdGenerator.cs" />
     <Compile Include="Code\Validator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

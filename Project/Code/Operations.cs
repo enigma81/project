@@ -11,9 +11,9 @@ namespace Project.Code
         public const string O_enlist = "ENLIST", O_display = "DISPLAY";
 
         //Funkcija za Display studenata
-        public static void DisplayStudents(List<Student> student)
+        public static void DisplayStudents()
         {
-            List<Student> sortedStudent = student.OrderBy(o => o.LastName).ToList();
+             List<Student> sortedStudent = StudentContainer.sortStudentList();
             int i = 1;
             Console.WriteLine("Students in a system:\n");
             foreach (Student s in sortedStudent)
