@@ -23,7 +23,7 @@ namespace Project.Code
         public static bool ValidateName(string name)
         {
            
-            if (name != "" || name != null) return true;
+            if (name != "" && name != null) return true;
             else
             {
                 error = "You need to insert value.";
