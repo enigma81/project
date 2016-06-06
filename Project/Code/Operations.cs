@@ -48,12 +48,15 @@ namespace Project.Code
             float gpa;
             do {
                 Console.Write("GPA: ");
-                if (float.TryParse(Console.ReadLine(), out gpa))
+                try
                 {
-                    //Console.WriteLine(gpa);
+                    //gpa = (float)Convert.ToDecimal(Console.ReadLine());
+                    gpa = float.Parse(Console.ReadLine());
                     newStudent.GPA = gpa;
+                    Console.WriteLine(gpa);
                     testGpa = true;
-                }else
+                }
+                catch (FormatException)
                 {
                     Console.WriteLine("You need to insert numerical value.");
                     testGpa = false;
