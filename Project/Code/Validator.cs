@@ -9,7 +9,7 @@ namespace Project.Code
         public static bool ValidateOperation(string operation)
         {
 
-           if (operation == Operations.O_enlist || operation == Operations.O_display)
+           if (operation == Operations.enlist || operation == Operations.display)
             {
                 return true;
             }
@@ -29,15 +29,6 @@ namespace Project.Code
                 error = "You need to insert value.";
                 return false;
             }
-        }
-
-        public static void displayError()
-        {
-            if (Validator.error != "")
-            {
-                Console.WriteLine(Validator.error);
-                Validator.error = "";
-            }
-        }
+        }        
     }
 }

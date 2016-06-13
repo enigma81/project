@@ -6,16 +6,16 @@ namespace Project.Code
 {
     public static class StudentContainer
     {
-        static List<Student> students = new List<Student>();
+        static List<Students> students = new List<Students>();
 
-        public static void addStudentToList()
+        public static void AddStudentToList(Students student)
         {
-            students.Add(Operations.newStudent());
+            students.Add(student);
         }
 
-        public static List<Student> sortStudentList()
+        public static List<Students> SortStudentList()
         {
-            return students.OrderBy(o => o.getLastname()).ToList();
+            return students.OrderBy(o => o.LastName).ToList();
         }
     }
 }

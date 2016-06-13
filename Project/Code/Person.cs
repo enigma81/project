@@ -2,16 +2,24 @@
 {
     public abstract class Person
     {
-        protected int Id;
-        protected string FirstName;
-        protected string LastName;
+        private int id;
+        private string firstName;
+        private string lastName;
 
-        public abstract int getId();
-        public abstract void setId(int id);
-        public abstract string getFirstname();
-        public abstract void setFirstname(string FirstName);
-        public abstract string getLastname();
-        public abstract void setLastname(string LastName);
+        public int Id {
+            set { id = value; }
+            get { return id; }            
+        }
 
+        public string FirstName {
+            set{ firstName = value; }
+            get { return firstName; }
+        }
+
+        public string LastName
+        {
+            set { lastName = value; }
+            get { return lastName; }
+        }
     }
 }
