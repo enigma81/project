@@ -2,11 +2,11 @@
 {
     public class Students : Person
     {
-        private float gpa;
+        // Person implementation
+        override public int Id { get; set; }
+        override public string FirstName { get; set; }
+        override public string LastName { get; set; }
         
-        public float Gpa {
-            set { gpa = value; }
-            get { return gpa;  }            
-        }        
+        public float Gpa { get; set; }
     }
 }

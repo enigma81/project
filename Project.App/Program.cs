@@ -70,24 +70,12 @@ namespace Project.App
 
             bool testGpa = false;
             float gpa;
-            /*System.Globalization.NumberStyles style;
-            System.Globalization.CultureInfo culture;
-
-            style = System.Globalization.NumberStyles.AllowDecimalPoint;
-            culture = System.Globalization.CultureInfo.CreateSpecificCulture("en-GB");
-            */
+            
             do
             {
                 Console.Write("GPA: ");
                 try
                 {
-                    //gpa = (float)Convert.ToDecimal(Console.ReadLine());
-                    //float.TryParse(Console.ReadLine(),style,culture,out gpa);
-                    //gpa = string.Format("{0:0.#}", Console.ReadLine());
-                    /*float.TryParse(Console.ReadLine(), 
-                        System.Globalization.NumberStyles.Any, 
-                        System.Globalization.NumberFormatInfo.InvariantInfo, out gpa);
-                        */
                     gpa = float.Parse(Console.ReadLine());
                     newStudent.Gpa = gpa;
                     Console.WriteLine(gpa);
@@ -100,7 +88,8 @@ namespace Project.App
                 }
             } while (testGpa == false);
 
-            var generateID = StudentIdGenerator.GetInstance;
+            StudentIdGenerator generateID = StudentIdGenerator.GetInstance;
+            generateID.Id++;
             newStudent.Id = generateID.Id;
             StudentContainer.AddStudentToList(newStudent);
         }

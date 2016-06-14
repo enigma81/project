@@ -3,18 +3,16 @@
     public sealed class StudentIdGenerator
     {
         private static readonly StudentIdGenerator instance = new StudentIdGenerator();
-        private int id;
+        
+        public int Id { get; set; }
 
-        public int Id { get { return id; } }
-
-        private StudentIdGenerator() { id = 0; }
+        private StudentIdGenerator() { Id = 0; }
 
         public static StudentIdGenerator GetInstance
         {
             get
             {
-                instance.id++;
-                return instance;
+               return instance;
             }
         }
     }
