@@ -4,34 +4,44 @@ namespace Project.Code
 {
     public static class Validator
     {
-        public static string error = "";
-
-        public static bool ValidateOperation(string operation)
+        public static ValidationMessage OperationValidator(string operation)
         {
+            var validation = ValidationMessage.GetInstance();
+
             foreach (string str in Enum.GetNames(typeof(Operations.AvailableOperations)))
             {
                 if (str == operation)
                 {
-                   return true;
-                }
-                else
-                {
-                    continue;
+                    validation.ValidationSuccess = true;
+                    return validation;
                 }
             }
-            error = "Operation non-existing, please use appropriate operation.";
-            return false;
+            validation.ValidationSuccess = false;
+            return validation;
         }
 
-        public static bool ValidateName(string name)
+        public static ValidationMessage FirstNameValidator(string firstName)
         {
-           
-            if (!String.IsNullOrEmpty(name)) return true;
-            else
+            var validation = ValidationMessage.GetInstance();
+            if (String.IsNullOrEmpty(firstName))
             {
-                error = "You need to insert value.";
-                return false;
+                validation.ValidationSuccess = false;
+                return validation;
             }
-        }        
+            validation.ValidationSuccess = true;
+            return validation;
+        }
+
+        public static ValidationMessage LastNameValidator(string lastName)
+        {
+            var validation = ValidationMessage.GetInstance();
+            if (String.IsNullOrEmpty(lastName))
+            {
+                validation.ValidationSuccess = false;
+                return validation;
+            }
+            validation.ValidationSuccess = true;
+            return validation;
+        }
     }
 }

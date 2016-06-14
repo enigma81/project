@@ -50,24 +50,35 @@ namespace Project.App
         {
             Console.WriteLine("Student");
             Students newStudent = new Students();
-            string input;
+            string inputPerson;
+            
+            // First Name input
+            Console.Write("First Name: ");
+            inputPerson = Console.ReadLine();
+            var personValidate = Validator.FirstNameValidator(inputPerson);
 
-            do
+            while (!personValidate.ValidationSuccess)
             {
-                DisplayError();
-                Console.Write("First Name: ");
-                input = Console.ReadLine();
-            } while (Validator.ValidateName(input) == false);
-            newStudent.FirstName = input;
+                Console.WriteLine(personValidate.GetError("FirstName"));
+                inputPerson = Console.ReadLine().ToUpper();
+                personValidate = Validator.FirstNameValidator(inputPerson);
+            }
+            newStudent.FirstName = inputPerson;
 
-            do
+            // Last Name input
+            Console.Write("Last Name: ");
+            inputPerson = Console.ReadLine();
+            personValidate = Validator.LastNameValidator(inputPerson);
+
+            while (!personValidate.ValidationSuccess)
             {
-                DisplayError();
-                Console.Write("Last Name: ");
-                input = Console.ReadLine();
-            } while (Validator.ValidateName(input) == false);
-            newStudent.LastName = input;
+                Console.WriteLine(personValidate.GetError("LastName"));
+                inputPerson = Console.ReadLine().ToUpper();
+                personValidate = Validator.LastNameValidator(inputPerson);
+            }
+            newStudent.LastName = inputPerson;
 
+            // Gpa input
             bool testGpa = false;
             float gpa;
             
@@ -78,7 +89,6 @@ namespace Project.App
                 {
                     gpa = float.Parse(Console.ReadLine());
                     newStudent.Gpa = gpa;
-                    Console.WriteLine(gpa);
                     testGpa = true;
                 }
                 catch (FormatException)
@@ -97,25 +107,23 @@ namespace Project.App
         static string SelectOperation()
         {
             string operation;
-
-            do
+            string output = "Select operation: ";
+            foreach (string str in Enum.GetNames(typeof(Operations.AvailableOperations)))
             {
-                DisplayError();
-                Console.WriteLine("Select operation: ENLIST/DISPLAY");
-                operation = Console.ReadLine().ToUpper();
-
-            } while (Validator.ValidateOperation(operation) == false);
-
-            return operation;
-        }
-
-        static void DisplayError()
-        {
-            if (Validator.error != "")
-            {
-                Console.WriteLine(Validator.error);
-                Validator.error = "";
+                output += str + "/";
             }
+            Console.WriteLine(output);
+            operation = Console.ReadLine().ToUpper();
+            var operationValidate = Validator.OperationValidator(operation);
+
+            while (!operationValidate.ValidationSuccess)
+            {
+                Console.WriteLine(operationValidate.GetError("Operation"));
+                Console.WriteLine(output);
+                operation = Console.ReadLine().ToUpper();
+                operationValidate = Validator.OperationValidator(operation);
+            }
+            return operation;
         }
     }
 }
