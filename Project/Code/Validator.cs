@@ -26,7 +26,7 @@ namespace Project.Code
         public static bool ValidateName(string name)
         {
            
-            if (name != "" && name != null) return true;
+            if (!String.IsNullOrEmpty(name)) return true;
             else
             {
                 error = "You need to insert value.";
