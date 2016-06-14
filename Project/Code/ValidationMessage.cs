@@ -16,7 +16,8 @@ namespace Project.Code
         }
 
         public bool ValidationSuccess { get; set; }
-        public string GetError(string error) { return errors [error]; }
+        public string Error { get; set; }
+        public string GetError() { return errors [Error]; }
 
         public static ValidationMessage GetInstance()
         {

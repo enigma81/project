@@ -59,7 +59,7 @@ namespace Project.App
 
             while (!personValidate.ValidationSuccess)
             {
-                Console.WriteLine(personValidate.GetError("FirstName"));
+                Console.WriteLine(personValidate.GetError());
                 inputPerson = Console.ReadLine().ToUpper();
                 personValidate = Validator.FirstNameValidator(inputPerson);
             }
@@ -72,7 +72,7 @@ namespace Project.App
 
             while (!personValidate.ValidationSuccess)
             {
-                Console.WriteLine(personValidate.GetError("LastName"));
+                Console.WriteLine(personValidate.GetError());
                 inputPerson = Console.ReadLine().ToUpper();
                 personValidate = Validator.LastNameValidator(inputPerson);
             }
@@ -118,7 +118,7 @@ namespace Project.App
 
             while (!operationValidate.ValidationSuccess)
             {
-                Console.WriteLine(operationValidate.GetError("Operation"));
+                Console.WriteLine(operationValidate.GetError());
                 Console.WriteLine(output);
                 operation = Console.ReadLine().ToUpper();
                 operationValidate = Validator.OperationValidator(operation);

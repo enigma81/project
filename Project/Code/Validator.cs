@@ -17,6 +17,7 @@ namespace Project.Code
                 }
             }
             validation.ValidationSuccess = false;
+            validation.Error = "Operation";
             return validation;
         }
 
@@ -26,9 +27,10 @@ namespace Project.Code
             if (String.IsNullOrEmpty(firstName))
             {
                 validation.ValidationSuccess = false;
-                return validation;
+                validation.Error = "FirstName";
             }
-            validation.ValidationSuccess = true;
+            else validation.ValidationSuccess = true;
+
             return validation;
         }
 
@@ -38,9 +40,10 @@ namespace Project.Code
             if (String.IsNullOrEmpty(lastName))
             {
                 validation.ValidationSuccess = false;
-                return validation;
+                validation.Error = "LastName";
             }
-            validation.ValidationSuccess = true;
+            else validation.ValidationSuccess = true;
+
             return validation;
         }
     }
