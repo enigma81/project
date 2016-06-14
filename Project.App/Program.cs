@@ -99,7 +99,6 @@ namespace Project.App
             } while (testGpa == false);
 
             StudentIdGenerator generateID = StudentIdGenerator.GetInstance;
-            generateID.Id++;
             newStudent.Id = generateID.Id;
             StudentContainer.AddStudentToList(newStudent);
         }
