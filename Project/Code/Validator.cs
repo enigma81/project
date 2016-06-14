@@ -8,16 +8,19 @@ namespace Project.Code
 
         public static bool ValidateOperation(string operation)
         {
-
-           if (operation == Operations.enlist || operation == Operations.display)
+            foreach (string str in Enum.GetNames(typeof(Operations.AvailableOperations)))
             {
-                return true;
+                if (str == operation)
+                {
+                   return true;
+                }
+                else
+                {
+                    continue;
+                }
             }
-            else
-            {
-                error = "Operation non-existing, please use appropriate operation.";
-                return false;
-            }
+            error = "Operation non-existing, please use appropriate operation.";
+            return false;
         }
 
         public static bool ValidateName(string name)
