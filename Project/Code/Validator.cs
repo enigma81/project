@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Project.Code
 {
@@ -11,16 +9,16 @@ namespace Project.Code
         
         public static ValidationMessage OperationValidator(string operation)
         {
-            foreach (string str in Enum.GetNames(typeof(Operations.AvailableOperations)))
+            if (!String.IsNullOrEmpty(operation))
             {
-                if (!String.IsNullOrEmpty(str))
+                foreach (string str in Enum.GetNames(typeof(Operations.AvailableOperations)))
                 {
                     if (str == operation)
                     {
                         validation.Status = true;
                         return validation;
                     }
-                }                
+                }
             }
             validation.Message = ValidatorMessageResource.errorOperation;
             validation.Status = false;
@@ -74,7 +72,6 @@ namespace Project.Code
 
         private class ValidatorMessageResource
         {
-            public const string success = "New student added.";
             public const string errorOperation = "Operation non-existing, please use appropriate operation.";
             public const string errorFirstName = "You need to insert valid string value for FirstName.";
             public const string errorLastName = "You need to insert valid string value for LastName.";

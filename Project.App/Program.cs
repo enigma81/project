@@ -10,9 +10,7 @@ namespace Project.App
         
         static void Main(string[] args)
         {
-            //string operation;
-            bool exit = false;
-            
+            bool exit = false;           
 
             while (!exit)
             {
@@ -30,10 +28,11 @@ namespace Project.App
                     default:
                         break;
                 }
-            }
-      
+            }      
             Console.ReadKey();
         }
+
+        #region Program static functions
 
         //Funkcija za Display studenata
         static void DisplayStudents()
@@ -41,10 +40,10 @@ namespace Project.App
             List<Students> sortedStudents = StudentContainer.SortStudentList();
             int i = 1;
             Console.WriteLine("Students in a system:\n");
-            foreach (Students s in sortedStudents)
+            foreach (Students student in sortedStudents)
             {
-                Console.WriteLine(i++.ToString() + "." + "  " + s.Id + "  " + s.FirstName + ", " +
-                s.LastName + " - " + s.Gpa);
+                Console.WriteLine(i++.ToString() + "." + "  " + student.Id + "  " + student.FirstName + ", " +
+                student.LastName + " - " + student.Gpa);
             }
         }
 
@@ -53,7 +52,6 @@ namespace Project.App
         {
             Console.WriteLine("Student");
             Students newStudent = new Students();
-            //string inputPerson;
             
             // First Name input
             Console.Write("First Name: ");
@@ -120,6 +118,7 @@ namespace Project.App
             }
             return inputConsole;
         }
+        #endregion
     }
 }
 
