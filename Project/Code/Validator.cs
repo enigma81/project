@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 
 namespace Project.Code
 {
@@ -25,8 +26,7 @@ namespace Project.Code
 
         public static ValidationMessage FirstNameValidator(string firstName)
         {
-            float testName;
-            if (String.IsNullOrEmpty(firstName) || float.TryParse(firstName, out testName))
+            if (String.IsNullOrEmpty(firstName) || !firstName.All(Char.IsLetter))
             {
                 validation.Status = false;
                 validation.Message = ValidatorMessageResource.errorFirstName;
@@ -37,8 +37,7 @@ namespace Project.Code
 
         public static ValidationMessage LastNameValidator(string lastName)
         {
-            float testName;
-            if (String.IsNullOrEmpty(lastName) || float.TryParse(lastName, out testName))
+            if (String.IsNullOrEmpty(lastName) || !lastName.All(Char.IsLetter))
             {
                 validation.Status = false;
                 validation.Message = ValidatorMessageResource.errorLastName;

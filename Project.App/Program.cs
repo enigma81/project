@@ -61,7 +61,7 @@ namespace Project.App
             while (!personValidate.Status)
             {
                 Console.WriteLine(personValidate.Message);
-                inputConsole = Console.ReadLine().ToUpper();
+                inputConsole = Console.ReadLine();
                 Validator.FirstNameValidator(inputConsole);
             }
             newStudent.FirstName = inputConsole;
@@ -74,7 +74,7 @@ namespace Project.App
             while (!personValidate.Status)
             {
                 Console.WriteLine(personValidate.Message);
-                inputConsole = Console.ReadLine().ToUpper();
+                inputConsole = Console.ReadLine();
                 personValidate = Validator.LastNameValidator(inputConsole);
             }
             newStudent.LastName = inputConsole;
