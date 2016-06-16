@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using Project.Code;
+using System.Globalization;
 
 namespace Project.App
 {
     class Program
     {
+        
         static void Main(string[] args)
         {
-            string operation;
+            //string operation;
             bool exit = false;
+            
 
             while (!exit)
             {
-                operation = SelectOperation();
+                string inputConsole = SelectOperation();
 
-                switch (operation)
+                switch (inputConsole)
                 {
                     case "ENLIST":
                         AddNewStudent();
@@ -50,54 +53,48 @@ namespace Project.App
         {
             Console.WriteLine("Student");
             Students newStudent = new Students();
-            string inputPerson;
+            //string inputPerson;
             
             // First Name input
             Console.Write("First Name: ");
-            inputPerson = Console.ReadLine();
-            var personValidate = Validator.FirstNameValidator(inputPerson);
+            string inputConsole = Console.ReadLine();
+            var personValidate = Validator.FirstNameValidator(inputConsole);
 
-            while (!personValidate.ValidationSuccess)
+            while (!personValidate.Status)
             {
-                Console.WriteLine(personValidate.GetError());
-                inputPerson = Console.ReadLine().ToUpper();
-                personValidate = Validator.FirstNameValidator(inputPerson);
+                Console.WriteLine(personValidate.Message);
+                inputConsole = Console.ReadLine().ToUpper();
+                Validator.FirstNameValidator(inputConsole);
             }
-            newStudent.FirstName = inputPerson;
+            newStudent.FirstName = inputConsole;
 
             // Last Name input
             Console.Write("Last Name: ");
-            inputPerson = Console.ReadLine();
-            personValidate = Validator.LastNameValidator(inputPerson);
+            inputConsole = Console.ReadLine();
+            personValidate = Validator.LastNameValidator(inputConsole);
 
-            while (!personValidate.ValidationSuccess)
+            while (!personValidate.Status)
             {
-                Console.WriteLine(personValidate.GetError());
-                inputPerson = Console.ReadLine().ToUpper();
-                personValidate = Validator.LastNameValidator(inputPerson);
+                Console.WriteLine(personValidate.Message);
+                inputConsole = Console.ReadLine().ToUpper();
+                personValidate = Validator.LastNameValidator(inputConsole);
             }
-            newStudent.LastName = inputPerson;
+            newStudent.LastName = inputConsole;
 
             // Gpa input
-            bool testGpa = false;
-            float gpa;
-            
-            do
-            {
-                Console.Write("GPA: ");
-                try
-                {
-                    gpa = float.Parse(Console.ReadLine());
-                    newStudent.Gpa = gpa;
-                    testGpa = true;
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("You need to insert numerical value.");
-                    testGpa = false;
-                }
-            } while (testGpa == false);
+            Console.Write("GPA: ");
+            inputConsole = Console.ReadLine();
+            personValidate = Validator.GpaValidator(inputConsole);
 
+            while (!personValidate.Status)
+            {
+                Console.WriteLine(personValidate.Message);
+                Console.Write("GPA: ");
+                inputConsole = Console.ReadLine();
+                personValidate = Validator.GpaValidator(inputConsole);
+            }
+            newStudent.Gpa = float.Parse(inputConsole, CultureInfo.InvariantCulture.NumberFormat);
+            
             StudentIdGenerator generateID = StudentIdGenerator.GetInstance;
             newStudent.Id = generateID.Id;
             StudentContainer.AddStudentToList(newStudent);
@@ -105,24 +102,23 @@ namespace Project.App
 
         static string SelectOperation()
         {
-            string operation;
             string output = "Select operation: ";
             foreach (string str in Enum.GetNames(typeof(Operations.AvailableOperations)))
             {
                 output += str + "/";
             }
             Console.WriteLine(output);
-            operation = Console.ReadLine().ToUpper();
-            var operationValidate = Validator.OperationValidator(operation);
+            string inputConsole = Console.ReadLine().ToUpper();
+            var operationValidate = Validator.OperationValidator(inputConsole);
 
-            while (!operationValidate.ValidationSuccess)
+            while (!operationValidate.Status)
             {
-                Console.WriteLine(operationValidate.GetError());
+                Console.WriteLine(operationValidate.Message);
                 Console.WriteLine(output);
-                operation = Console.ReadLine().ToUpper();
-                operationValidate = Validator.OperationValidator(operation);
+                inputConsole = Console.ReadLine().ToUpper(); 
+                operationValidate = Validator.OperationValidator(inputConsole);
             }
-            return operation;
+            return inputConsole;
         }
     }
 }

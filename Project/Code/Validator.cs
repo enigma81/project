@@ -1,50 +1,84 @@
 ﻿using System;
+using System.Globalization;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Project.Code
 {
     public static class Validator
     {
+        static ValidationMessage validation = new ValidationMessage();
+        
         public static ValidationMessage OperationValidator(string operation)
         {
-            var validation = ValidationMessage.GetInstance();
-
             foreach (string str in Enum.GetNames(typeof(Operations.AvailableOperations)))
             {
-                if (str == operation)
+                if (!String.IsNullOrEmpty(str))
                 {
-                    validation.ValidationSuccess = true;
-                    return validation;
-                }
+                    if (str == operation)
+                    {
+                        validation.Status = true;
+                        return validation;
+                    }
+                }                
             }
-            validation.ValidationSuccess = false;
-            validation.Error = "Operation";
+            validation.Message = ValidatorMessageResource.errorOperation;
+            validation.Status = false;
             return validation;
         }
 
         public static ValidationMessage FirstNameValidator(string firstName)
         {
-            var validation = ValidationMessage.GetInstance();
-            if (String.IsNullOrEmpty(firstName))
+            float testName;
+            if (String.IsNullOrEmpty(firstName) || float.TryParse(firstName, out testName))
             {
-                validation.ValidationSuccess = false;
-                validation.Error = "FirstName";
+                validation.Status = false;
+                validation.Message = ValidatorMessageResource.errorFirstName;
             }
-            else validation.ValidationSuccess = true;
-
+            else validation.Status = true;
             return validation;
         }
 
         public static ValidationMessage LastNameValidator(string lastName)
         {
-            var validation = ValidationMessage.GetInstance();
-            if (String.IsNullOrEmpty(lastName))
+            float testName;
+            if (String.IsNullOrEmpty(lastName) || float.TryParse(lastName, out testName))
             {
-                validation.ValidationSuccess = false;
-                validation.Error = "LastName";
+                validation.Status = false;
+                validation.Message = ValidatorMessageResource.errorLastName;
             }
-            else validation.ValidationSuccess = true;
-
+            else validation.Status = true;
             return validation;
+        }
+
+        public static ValidationMessage GpaValidator(string inputGpa)
+        {
+            float gpa;
+            if(float.TryParse(inputGpa,NumberStyles.Number,CultureInfo.InvariantCulture.NumberFormat,out gpa))
+            {
+                if (gpa >= 1 && gpa <= 5)
+                    validation.Status = true;
+                else
+                {
+                    validation.Status = false;
+                    validation.Message = ValidatorMessageResource.errorGpa;
+                }
+            }
+            else
+            {
+                validation.Status = false;
+                validation.Message = ValidatorMessageResource.errorGpa;
+            }           
+            return validation;
+        }
+
+        private class ValidatorMessageResource
+        {
+            public const string success = "New student added.";
+            public const string errorOperation = "Operation non-existing, please use appropriate operation.";
+            public const string errorFirstName = "You need to insert valid string value for FirstName.";
+            public const string errorLastName = "You need to insert valid string value for LastName.";
+            public const string errorGpa = "You need to insert numerical value.";
         }
     }
 }

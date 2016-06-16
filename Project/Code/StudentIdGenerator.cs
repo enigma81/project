@@ -2,27 +2,25 @@
 {
     public sealed class StudentIdGenerator
     {
-        private static readonly StudentIdGenerator instance = new StudentIdGenerator();
-        private int id;
+        private static readonly StudentIdGenerator _instance = new StudentIdGenerator();
+        private int _id;
 
         public int Id
         {
             get
             {
-                setId();
-                return id;
+                _id++;
+                return _id;
             }
         }
 
-        private void setId() { id++; }
-
-        private StudentIdGenerator() { id = 0; }
+        private StudentIdGenerator() { _id = 0; }
 
         public static StudentIdGenerator GetInstance
         {
             get
             {
-               return instance;
+               return _instance;
             }
         }
     }

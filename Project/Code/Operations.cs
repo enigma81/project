@@ -4,6 +4,6 @@
     {
         //public const string enlist = "ENLIST";
         //public const string display = "DISPLAY";
-        public enum AvailableOperations { ENLIST, DISPLAY};
+        public enum AvailableOperations : byte { ENLIST, DISPLAY};
     }    
 }
