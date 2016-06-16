@@ -11,14 +11,12 @@ namespace Project.Code
         {
             if (!String.IsNullOrEmpty(operation))
             {
-                foreach (string str in Enum.GetNames(typeof(Operations.AvailableOperations)))
+                if(Enum.IsDefined(typeof(Operations.AvailableOperations), operation))
                 {
-                    if (str == operation)
-                    {
-                        validation.Status = true;
-                        return validation;
-                    }
+                    validation.Status = true;
+                    return validation;
                 }
+
             }
             validation.Message = ValidatorMessageResource.errorOperation;
             validation.Status = false;

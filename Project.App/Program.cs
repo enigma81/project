@@ -100,11 +100,7 @@ namespace Project.App
 
         static string SelectOperation()
         {
-            string output = "Select operation: ";
-            foreach (string str in Enum.GetNames(typeof(Operations.AvailableOperations)))
-            {
-                output += str + "/";
-            }
+            string output = "Select operation: " + string.Join(", ", Enum.GetNames(typeof(Operations.AvailableOperations)));
             Console.WriteLine(output);
             string inputConsole = Console.ReadLine().ToUpper();
             var operationValidate = Validator.OperationValidator(inputConsole);
