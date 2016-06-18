@@ -1,6 +1,6 @@
-﻿namespace Project.Code
+﻿namespace Project.Resources
 {
-    public class ValidationMessage
+    public class ValidationStatus
     {
         public string Message { get; set; }
         public bool Status { get; set; }

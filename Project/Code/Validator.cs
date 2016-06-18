@@ -1,78 +1,69 @@
 ﻿using System;
-using System.Globalization;
+using Project.Resources;
 using System.Linq;
+using System.Globalization;
+using System.Reflection;
 
 namespace Project.Code
 {
-    public static class Validator
+    public class Validator
     {
-        static ValidationMessage validation = new ValidationMessage();
+        ValidationStatus validationStatus = new ValidationStatus();
         
-        public static ValidationMessage OperationValidator(string operation)
+        public ValidationStatus OperationValidator(string operation, FieldInfo[] operationFields)
         {
             if (!String.IsNullOrEmpty(operation))
             {
-                if(Enum.IsDefined(typeof(Operations.AvailableOperations), operation))
+                foreach (var field in operationFields)
                 {
-                    validation.Status = true;
-                    return validation;
+                    if (operation == field.GetValue(field).ToString())
+                    {
+                        validationStatus.Status = true;
+                        return validationStatus;
+                    }
                 }
-
+                if (operation == Operations.enlist || operation == Operations.display)
+                {
+                    validationStatus.Status = true;
+                    return validationStatus;
+                }
             }
-            validation.Message = ValidatorMessageResource.errorOperation;
-            validation.Status = false;
-            return validation;
+            validationStatus.Message = ValidatonMessageText.errorOperation;
+            validationStatus.Status = false;
+            return validationStatus;
         }
 
-        public static ValidationMessage FirstNameValidator(string firstName)
+        public ValidationStatus NameValidator(string name)
         {
-            if (String.IsNullOrEmpty(firstName) || !firstName.All(Char.IsLetter))
+            if (String.IsNullOrEmpty(name) || !name.All(Char.IsLetter))
             {
-                validation.Status = false;
-                validation.Message = ValidatorMessageResource.errorFirstName;
+                validationStatus.Status = false;
+                validationStatus.Message = ValidatonMessageText.errorName;
             }
-            else validation.Status = true;
-            return validation;
+            else validationStatus.Status = true;
+            return validationStatus;
         }
 
-        public static ValidationMessage LastNameValidator(string lastName)
-        {
-            if (String.IsNullOrEmpty(lastName) || !lastName.All(Char.IsLetter))
-            {
-                validation.Status = false;
-                validation.Message = ValidatorMessageResource.errorLastName;
-            }
-            else validation.Status = true;
-            return validation;
-        }
-
-        public static ValidationMessage GpaValidator(string inputGpa)
+        public ValidationStatus GpaValidator(string inputGpa)
         {
             float gpa;
-            if(float.TryParse(inputGpa,NumberStyles.Number,CultureInfo.InvariantCulture.NumberFormat,out gpa))
+            if (float.TryParse(inputGpa, NumberStyles.Number, CultureInfo.InvariantCulture.NumberFormat, out gpa))
             {
                 if (gpa >= 1 && gpa <= 5)
-                    validation.Status = true;
+                    validationStatus.Status = true;
                 else
                 {
-                    validation.Status = false;
-                    validation.Message = ValidatorMessageResource.errorGpa;
+                    validationStatus.Status = false;
+                    validationStatus.Message = ValidatonMessageText.errorGpa;
                 }
             }
             else
             {
-                validation.Status = false;
-                validation.Message = ValidatorMessageResource.errorGpa;
-            }           
-            return validation;
+                validationStatus.Status = false;
+                validationStatus.Message = ValidatonMessageText.errorGpa;
+            }
+            return validationStatus;
         }
 
-        private class ValidatorMessageResource
-        {
-            public const string errorOperation = "Operation non-existing, please use appropriate operation.";
-            public const string errorFirstName = "You need to insert valid string value for FirstName.";
-            public const string errorLastName = "You need to insert valid string value for LastName.";
-            public const string errorGpa = "You need to insert numerical value.";
-        }
     }
 }
