@@ -4,18 +4,18 @@ using System.Text;
 using Project.Resources;
 using System.Collections.Generic;
 using System.Globalization;
+using static Project.Code.ValidatorClass;
 
 namespace Project.Code
 {
     public sealed class OperationController
-    {
-        Validator validator = new Validator();
-
+    { 
         public string SelectOperation()
         {
             string inputConsole;
             StringBuilder output = new StringBuilder();
             var operationFields = typeof(Operations).GetFields();
+            var validator = ValidatorFactory.CreateValidator<OperationValidator>();
 
             output.Append("Select operation: ");
             foreach (var field in operationFields)
@@ -25,14 +25,16 @@ namespace Project.Code
                                    
             Console.WriteLine(output);
 
+            
             inputConsole = Console.ReadLine().ToUpper();
-            ValidationStatus validation = validator.OperationValidator(inputConsole, operationFields);
-            while (validation.Status != true)
+            validator.Validate(inputConsole, operationFields);
+
+            while (validator.validatorMessage.Status != true)
             {
-                Console.WriteLine(validation.Message);
+                Console.WriteLine(validator.validatorMessage.Message);
                 Console.WriteLine(output);
                 inputConsole = Console.ReadLine().ToUpper();
-                validation = validator.OperationValidator(inputConsole, operationFields);
+                validator.Validate(inputConsole, operationFields);
             }
 
             return inputConsole;
@@ -41,8 +43,8 @@ namespace Project.Code
         public void AddNewStudent()
         {
             Students newStudent = new Students();
+            var validator = ValidatorFactory.CreateValidator<StudentsValidator>();
             string inputConsole;
-            ValidationStatus validationStatus = null;
 
             Console.WriteLine("Student\n");
 
@@ -50,39 +52,39 @@ namespace Project.Code
             Console.Write("First Name: ");
             inputConsole = Console.ReadLine();
 
-            validationStatus = validator.NameValidator(inputConsole);
-            while (validationStatus.Status != true)
+            validator.ValidateName(inputConsole);
+            while (validator.validatorMessage.Status != true)
             {
-                Console.WriteLine(validationStatus.Message);
+                Console.WriteLine(validator.validatorMessage.Message);
                 inputConsole = Console.ReadLine();
-                validator.NameValidator(inputConsole);
+                validator.ValidateName(inputConsole);
             }
             newStudent.FirstName = inputConsole;
 
             // Last Name input
             Console.Write("Last Name: ");
             inputConsole = Console.ReadLine();
-            validationStatus = validator.NameValidator(inputConsole);
+            validator.ValidateName(inputConsole);
 
-            while (validationStatus.Status != true)
+            while (validator.validatorMessage.Status != true)
             {
-                Console.WriteLine(validationStatus.Message);
+                Console.WriteLine(validator.validatorMessage.Message);
                 inputConsole = Console.ReadLine();
-                validationStatus = validator.NameValidator(inputConsole);
+                validator.ValidateName(inputConsole);
             }
             newStudent.LastName = inputConsole;
 
             // Gpa input
             Console.Write("GPA: ");
             inputConsole = Console.ReadLine();
-            validationStatus = validator.GpaValidator(inputConsole);
+            validator.ValidateGpa(inputConsole);
 
-            while (validationStatus.Status != true)
+            while (validator.validatorMessage.Status != true)
             {
-                Console.WriteLine(validationStatus.Message);
+                Console.WriteLine(validator.validatorMessage.Message);
                 Console.Write("GPA: ");
                 inputConsole = Console.ReadLine();
-                validationStatus = validator.GpaValidator(inputConsole);
+                validator.ValidateGpa(inputConsole);
             }
             newStudent.Gpa = float.Parse(inputConsole, CultureInfo.InvariantCulture.NumberFormat);
 
