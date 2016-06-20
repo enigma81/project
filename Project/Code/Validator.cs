@@ -39,11 +39,6 @@ namespace Project.Code
                             return validatorMessage;
                         }
                     }
-                    if (operation == Operations.enlist || operation == Operations.display)
-                    {
-                        validatorMessage.Status = true;
-                        return validatorMessage;
-                    }
                 }
                 validatorMessage.Message = errorOperation;
                 validatorMessage.Status = false;
