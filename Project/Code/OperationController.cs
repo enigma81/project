@@ -4,7 +4,6 @@ using System.Text;
 using Project.Resources;
 using System.Collections.Generic;
 using System.Globalization;
-using static Project.Code.ValidatorClass;
 
 namespace Project.Code
 {
