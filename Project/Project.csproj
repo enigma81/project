@@ -41,13 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\OperationController.cs" />
-    <Compile Include="Resources\ValidatonMessageText.cs" />
     <Compile Include="Resources\Operations.cs" />
     <Compile Include="Code\Person.cs" />
     <Compile Include="Code\Students.cs" />
-    <Compile Include="Code\StudentContainer.cs" />
-    <Compile Include="Code\StudentIdGenerator.cs" />
-    <Compile Include="Resources\ValidationStatus.cs" />
     <Compile Include="Code\Validator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

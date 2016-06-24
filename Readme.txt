@@ -1,19 +1,15 @@
-Prošao sam kroz vaše izmene:
+-       Validator klasa –  pogledati protected modifier
 
-1.       Person.cs i Student.cs
+-       Validator klasa i child klase, ima dosta ponavljanja koda, to se može premjestiti u protected metodu na base klasi, koja ce postaviti poruku.
 
-a.       Maknut abstract modifier sa property-a Person klase, nepotrebno je u ovom sluèaju.
+-       Validator klasa, vraæati novu instancu poruke.       
 
-2.       StudentIdGenerator.cs
+-       Mozda koristiti Pascal case za konstante ( prvo slovo veliko )
 
-a.       Metoda setId() je nepotrebna i nije joj ime po c# konvencijama
+-       Kreiranje Id-a je bolje staviti u metodu, nego na property.
 
-3.       ValidationMessage.cs
+-       Sa singletona se metode mogu zvati direktno umjesto spremanja u field ... ( SingletonClass.Instance.Method() ) – OperationController linija 93
 
-a.       Neka bude obièna klasa (POCO) sa dva property-a.
+-       OperationController, ima ponavljanja koda, provjeriti koji dio se može premjestiti u methode.
 
-b.      Ona ne treba držati kolekciju poruka, ona samo služi za prijenos informacije o validaciji.
-
-4.       Validator.cs
-
-a.       Izmjeniti metode tako da kreiraju ValidationMessage objekt i vraæaju kao rezultat validacija (GetInstance je nepotrebno). Error poruke možete držati u privatnoj Resource klasi, koja ima public const fieldove.
+-       Pogledati Console.WriteLine() i overloade. Može se i bez + operatora odraditi, èitljivije je

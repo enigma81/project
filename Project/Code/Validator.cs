@@ -1,31 +1,46 @@
 ﻿using System;
-using Project.Resources;
 using System.Linq;
 using System.Globalization;
 using System.Reflection;
+//using System.Runtime.InteropServices;
 
 namespace Project.Code
-{    
-    internal interface IValidator { }
+{
+    interface IValidator { }
 
-    internal class ValidatorMessage
+    class ValidatorMessage
     {
-        internal string Message { get; set; }
-        internal bool Status { get; set; }
+        public string Message { get; set; }
+        public bool Status { get; set; }
     }
 
-    internal abstract class Validator : IValidator
+    abstract class Validator : IValidator
     {
-        internal ValidatorMessage validatorMessage = new ValidatorMessage();
-
-        internal const string errorOperation = "Operation non-existing, please use appropriate operation.";
-        internal const string errorName = "You need to insert valid string value.";
-        internal const string errorGpa = "You need to insert numerical value.";
+        ValidatorMessage validatorMessage;
+        //protected void SetValidatorMessage(ValidatorMessage messageInstance,bool status, [Optional]string error)
+        //{
+        //    validatorMessage.Status = status;
+        //    if(error != null)
+        //        validatorMessage.Message = error;
+        //}
+        protected void SetValidatorMessage(ValidatorMessage messageInstance, bool status)
+        {
+            messageInstance.Status = status;
+        }
+        protected void SetValidatorMessage(ValidatorMessage messageInstance, bool status, string error)
+        {
+            SetValidatorMessage(messageInstance, status);
+            if (error != null)
+                messageInstance.Message = error;
+        }
     }
 
-    internal class OperationValidator : Validator
+    class OperationValidator : Validator
     {
-        public ValidatorMessage Validate (string operation, FieldInfo[] operationFields)
+        ValidatorMessage validatorMessage = new ValidatorMessage();
+        const string OperationError = "Operation non-existing, please use appropriate operation.";
+
+        public ValidatorMessage ValidateOperation(string operation, FieldInfo[] operationFields)
         {
             if (!String.IsNullOrEmpty(operation))
             {
@@ -33,72 +48,50 @@ namespace Project.Code
                 {
                     if (operation == field.GetValue(field).ToString())
                     {
-                        validatorMessage.Status = true;
+                        SetValidatorMessage(validatorMessage, true);
                         return validatorMessage;
                     }
                 }
             }
-            validatorMessage.Message = errorOperation;
-            validatorMessage.Status = false;
+            SetValidatorMessage(validatorMessage, false, OperationError);
             return validatorMessage;
         }
     }
 
-    internal interface IPersonValidator
+    class StudentsValidator : Validator
     {
-        ValidatorMessage ValidateName(string name);
-    }
-
-    internal class PersonValidator : Validator, IPersonValidator
-    {
+        const string NameError = "You need to insert valid string value.";
+        const string GpaError = "You need to insert numerical value.";
+        ValidatorMessage validatorMessage = new ValidatorMessage();
         public ValidatorMessage ValidateName(string name)
         {
             if (String.IsNullOrEmpty(name) || !name.All(Char.IsLetter))
-            {
-                validatorMessage.Status = false;
-                validatorMessage.Message = errorName;
-            }
-            else validatorMessage.Status = true;
-            return validatorMessage;
-        }
-    }
+                SetValidatorMessage(validatorMessage, false, NameError);
+            else
+                SetValidatorMessage(validatorMessage, true);
 
-    internal class StudentsValidator : Validator, IPersonValidator
-    {
-        public ValidatorMessage ValidateName(string name)
-        {
-            if (String.IsNullOrEmpty(name) || !name.All(Char.IsLetter))
-            {
-                validatorMessage.Status = false;
-                validatorMessage.Message = errorName;
-            }
-            else validatorMessage.Status = true;
             return validatorMessage;
         }
 
         public ValidatorMessage ValidateGpa(string inputGpa)
         {
             float gpa;
+
             if (float.TryParse(inputGpa, NumberStyles.Number, CultureInfo.InvariantCulture.NumberFormat, out gpa))
             {
                 if (gpa >= 1 && gpa <= 5)
-                    validatorMessage.Status = true;
-                else
                 {
-                    validatorMessage.Status = false;
-                    validatorMessage.Message = errorGpa;
+                    SetValidatorMessage(validatorMessage, true);
+                    return validatorMessage;
                 }
             }
-            else
-            {
-                validatorMessage.Status = false;
-                validatorMessage.Message = errorGpa;
-            }
+
+            SetValidatorMessage(validatorMessage, false, GpaError);
             return validatorMessage;
         }
     }
 
-    internal class ValidatorFactory
+    class ValidatorFactory
     {
         internal static TValidatorType CreateValidator<TValidatorType>()
             where TValidatorType : IValidator, new()
@@ -106,5 +99,4 @@ namespace Project.Code
             return new TValidatorType();
         }
     }
-    
 }

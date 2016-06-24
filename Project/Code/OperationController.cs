@@ -3,105 +3,67 @@ using System.Text;
 
 using Project.Resources;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace Project.Code
 {
     public sealed class OperationController
-    { 
+    {
         public string SelectOperation()
         {
-            string inputConsole;
-            StringBuilder output = new StringBuilder();
+            ValidatorMessage validation;
+            string consoleInput;
             var operationFields = typeof(Operations).GetFields();
-            var validator = ValidatorFactory.CreateValidator<OperationValidator>();
+            var operationValidator = ValidatorFactory.CreateValidator<OperationValidator>();
+            StringBuilder output = new StringBuilder();
 
             output.Append("Select operation: ");
             foreach (var field in operationFields)
             {
-                output.Append(field.GetValue(field).ToString() + " \\");
+                output.Append(field.GetValue(field).ToString()).Append(" \\");
             }
-                                   
-            Console.WriteLine(output);
 
-            
-            inputConsole = Console.ReadLine().ToUpper();
-            validator.Validate(inputConsole, operationFields);
-
-            while (validator.validatorMessage.Status != true)
+            do
             {
-                Console.WriteLine(validator.validatorMessage.Message);
                 Console.WriteLine(output);
-                inputConsole = Console.ReadLine().ToUpper();
-                validator.Validate(inputConsole, operationFields);
-            }
+                consoleInput = Console.ReadLine().ToUpper();
+                validation = operationValidator.ValidateOperation(consoleInput, operationFields);
+                if (!validation.Status)
+                {
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(validation.Message);
+                    Console.ResetColor();
+                }
+            } while (validation.Status != true);
 
-            return inputConsole;
+            return consoleInput;
         }
 
         public void AddNewStudent()
         {
-            Students newStudent = new Students();
-            var validator = ValidatorFactory.CreateValidator<StudentsValidator>();
-            string inputConsole;
+            Students student = new Students();
+            NewStudent newStudent = new NewStudent();
 
-            Console.WriteLine("Student\n");
+            Console.WriteLine("Student:\n");
 
-            // First Name input
-            Console.Write("First Name: ");
-            inputConsole = Console.ReadLine();
-
-            validator.ValidateName(inputConsole);
-            while (validator.validatorMessage.Status != true)
-            {
-                Console.WriteLine(validator.validatorMessage.Message);
-                inputConsole = Console.ReadLine();
-                validator.ValidateName(inputConsole);
-            }
-            newStudent.FirstName = inputConsole;
-
-            // Last Name input
-            Console.Write("Last Name: ");
-            inputConsole = Console.ReadLine();
-            validator.ValidateName(inputConsole);
-
-            while (validator.validatorMessage.Status != true)
-            {
-                Console.WriteLine(validator.validatorMessage.Message);
-                inputConsole = Console.ReadLine();
-                validator.ValidateName(inputConsole);
-            }
-            newStudent.LastName = inputConsole;
-
-            // Gpa input
-            Console.Write("GPA: ");
-            inputConsole = Console.ReadLine();
-            validator.ValidateGpa(inputConsole);
-
-            while (validator.validatorMessage.Status != true)
-            {
-                Console.WriteLine(validator.validatorMessage.Message);
-                Console.Write("GPA: ");
-                inputConsole = Console.ReadLine();
-                validator.ValidateGpa(inputConsole);
-            }
-            newStudent.Gpa = float.Parse(inputConsole, CultureInfo.InvariantCulture.NumberFormat);
-
-            StudentIdGenerator generateID = StudentIdGenerator.GetInstance;
-            newStudent.Id = generateID.Id;
-            StudentContainer.AddStudentToList(newStudent);
+            student.FirstName = newStudent.AddFirstName();
+            student.LastName = newStudent.AddLastName();
+            student.Gpa = newStudent.AddGpa();
+            student.Id = StudentIdGenerator.GetInstance.GenerateId();
+            StudentsContainer.AddStudentToList(student);
         }
 
         //Funkcija za Display studenata
         public void DisplayStudents()
         {
-            List<Students> sortedStudents = StudentContainer.SortStudentList();
+            List<Students> sortedStudents = StudentsContainer.SortStudentList();
             int i = 1;
             Console.WriteLine("Students in a system:\n");
+            Console.WriteLine("{0,-10}{1,-5}{2,-20}{3,-20}{4,5}\n", "Red.br.", "ID", "First name", "Last name", "Gpa");
             foreach (Students student in sortedStudents)
             {
-                Console.WriteLine(i++.ToString() + "." + "  " + student.Id + "  " + student.FirstName + ", " +
-                student.LastName + " - " + student.Gpa);
+                Console.WriteLine(String.Format("{0}.         {1,-5}{2,-20}{3,-20}{4,5}"
+                        , i++, student.Id, student.FirstName, student.LastName, student.Gpa));
             }
             Console.ReadKey();
             Console.Clear();
