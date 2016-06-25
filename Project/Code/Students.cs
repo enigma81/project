@@ -56,8 +56,7 @@ namespace Project.Code
         {
             do
             {
-                Console.Write("First Name: ");
-                ValidateNameInput();
+               ValidateInput("First Name");
 
             } while (validation.Status != true);
 
@@ -67,8 +66,7 @@ namespace Project.Code
         {
             do
             {
-                Console.Write("Last Name: ");
-                ValidateNameInput();
+                ValidateInput("Last Name");
 
             } while (validation.Status != true);
 
@@ -78,23 +76,33 @@ namespace Project.Code
         {
             do
             {
-                Console.Write("GPA: ");
-                consoleInput = Console.ReadLine();
-                validation = studentValidator.ValidateGpa(consoleInput);
-
-                if (!validation.Status)
-                    Console.WriteLine(validation.Message);
+                ValidateInput("GPA");
 
             } while (validation.Status != true);
 
-
-            return float.Parse(consoleInput, CultureInfo.InvariantCulture.NumberFormat);
+            return float.Parse(consoleInput, CultureInfo.InvariantCulture);
+            
         }
 
-        void ValidateNameInput()
+        void ValidateInput(string input)
         {
+            Console.Write("{0}: ",input);
             consoleInput = Console.ReadLine();
-            validation = studentValidator.ValidateName(consoleInput);
+
+            switch (input)
+            {
+                case "First Name":
+                    validation = studentValidator.ValidateName(consoleInput);
+                    break;
+                case "Last Name":
+                    validation = studentValidator.ValidateName(consoleInput);
+                    break;
+                case "GPA":
+                    validation = studentValidator.ValidateGpa(consoleInput);
+                    break;
+                default:
+                    break;
+            }            
 
             if (!validation.Status)
                 Console.WriteLine(validation.Message);
