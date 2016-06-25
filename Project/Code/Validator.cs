@@ -58,7 +58,7 @@ namespace Project.Code
         }
     }
 
-    class StudentsValidator : Validator
+    class PersonValidator : Validator
     {
         ValidatorMessage validatorMessage = new ValidatorMessage();
         public ValidatorMessage ValidateName(string name)
@@ -70,7 +70,10 @@ namespace Project.Code
 
             return validatorMessage;
         }
-
+    }
+    class StudentsValidator : Validator
+    {
+        ValidatorMessage validatorMessage = new ValidatorMessage();
         public ValidatorMessage ValidateGpa(string inputGpa)
         {
             float gpa;

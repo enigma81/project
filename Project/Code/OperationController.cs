@@ -62,12 +62,11 @@ namespace Project.Code
             Console.WriteLine("{0,-10}{1,-5}{2,-20}{3,-20}{4,5}\n", "Red.br.", "ID", "First name", "Last name", "Gpa");
             foreach (Students student in sortedStudents)
             {
-                Console.WriteLine(String.Format("{0}.         {1,-5}{2,-20}{3,-20}{4,5}"
+                Console.WriteLine(String.Format("{0}.         {1,-5}{2,-20}{3,-20}{4,-5}"
                         , i++, student.Id, student.FirstName, student.LastName, student.Gpa.ToString()));
             }
             Console.ReadKey();
             Console.Clear();
         }
-
     }
 }

@@ -47,69 +47,25 @@ namespace Project.Code
         }
     }
 
-    class NewStudent
+    class NewStudent : NewPerson
     {
-
-        ValidatorMessage validation;
         StudentsValidator studentValidator = ValidatorFactory.CreateValidator<StudentsValidator>();
-        string consoleInput;
-        #region NewStudent functions
-        public string AddFirstName()
-        {
-            do
-            {
-               ValidateInput("First Name");
-
-            } while (validation.Status != true);
-
-            return consoleInput;
-        }
-        public string AddLastName()
-        {
-            do
-            {
-                ValidateInput("Last Name");
-
-            } while (validation.Status != true);
-
-            return consoleInput;
-        }
         public float AddGpa()
         {
             do
             {
-                ValidateInput("GPA");
+                Console.Write("GPA: ");
+                consoleInput = Console.ReadLine();
+                validation = studentValidator.ValidateGpa(consoleInput);
+
+                if (!validation.Status)
+                    Console.WriteLine(validation.Message);
 
             } while (validation.Status != true);
 
             return float.Parse(consoleInput, CultureInfo.InvariantCulture);
             
         }
-
-        void ValidateInput(string input)
-        {
-            Console.Write("{0}: ",input);
-            consoleInput = Console.ReadLine();
-
-            switch (input)
-            {
-                case "First Name":
-                    validation = studentValidator.ValidateName(consoleInput);
-                    break;
-                case "Last Name":
-                    validation = studentValidator.ValidateName(consoleInput);
-                    break;
-                case "GPA":
-                    validation = studentValidator.ValidateGpa(consoleInput);
-                    break;
-                default:
-                    break;
-            }            
-
-            if (!validation.Status)
-                Console.WriteLine(validation.Message);
-        }
-        #endregion
     }
 
 
