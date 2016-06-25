@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\OperationController.cs" />
+    <Compile Include="Resources\ErrorText.cs" />
     <Compile Include="Resources\Operations.cs" />
     <Compile Include="Code\Person.cs" />
     <Compile Include="Code\Students.cs" />

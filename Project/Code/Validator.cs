@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Globalization;
 using System.Reflection;
+using Project.Resources;
 //using System.Runtime.InteropServices;
 
 namespace Project.Code
@@ -23,23 +24,22 @@ namespace Project.Code
         //    if(error != null)
         //        validatorMessage.Message = error;
         //}
-        protected void SetValidatorMessage(ValidatorMessage messageInstance, bool status)
+        protected void SetValidatorMessage(ValidatorMessage MessageInstance, bool status)
         {
-            messageInstance.Status = status;
+            MessageInstance.Status = status;
         }
-        protected void SetValidatorMessage(ValidatorMessage messageInstance, bool status, string error)
+        protected void SetValidatorMessage(ValidatorMessage MessageInstance, bool status, string error)
         {
-            SetValidatorMessage(messageInstance, status);
+            SetValidatorMessage(MessageInstance, status);
             if (error != null)
-                messageInstance.Message = error;
+                MessageInstance.Message = error;
         }
     }
 
+    #region Validator child classes
     class OperationValidator : Validator
     {
         ValidatorMessage validatorMessage = new ValidatorMessage();
-        const string OperationError = "Operation non-existing, please use appropriate operation.";
-
         public ValidatorMessage ValidateOperation(string operation, FieldInfo[] operationFields)
         {
             if (!String.IsNullOrEmpty(operation))
@@ -53,20 +53,18 @@ namespace Project.Code
                     }
                 }
             }
-            SetValidatorMessage(validatorMessage, false, OperationError);
+            SetValidatorMessage(validatorMessage, false, ErrorText.ValidatorOperationError);
             return validatorMessage;
         }
     }
 
     class StudentsValidator : Validator
     {
-        const string NameError = "You need to insert valid string value.";
-        const string GpaError = "You need to insert numerical value.";
         ValidatorMessage validatorMessage = new ValidatorMessage();
         public ValidatorMessage ValidateName(string name)
         {
             if (String.IsNullOrEmpty(name) || !name.All(Char.IsLetter))
-                SetValidatorMessage(validatorMessage, false, NameError);
+                SetValidatorMessage(validatorMessage, false, ErrorText.ValidatorNameError);
             else
                 SetValidatorMessage(validatorMessage, true);
 
@@ -86,11 +84,11 @@ namespace Project.Code
                 }
             }
 
-            SetValidatorMessage(validatorMessage, false, GpaError);
+            SetValidatorMessage(validatorMessage, false, ErrorText.ValidatorGpaError);
             return validatorMessage;
         }
     }
-
+    #endregion
     class ValidatorFactory
     {
         internal static TValidatorType CreateValidator<TValidatorType>()

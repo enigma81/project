@@ -49,9 +49,11 @@ namespace Project.Code
 
     class NewStudent
     {
+
         ValidatorMessage validation;
         StudentsValidator studentValidator = ValidatorFactory.CreateValidator<StudentsValidator>();
         string consoleInput;
+        #region NewStudent functions
         public string AddFirstName()
         {
             do
@@ -107,7 +109,7 @@ namespace Project.Code
             if (!validation.Status)
                 Console.WriteLine(validation.Message);
         }
-
+        #endregion
     }
 
 

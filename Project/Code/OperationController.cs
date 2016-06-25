@@ -46,10 +46,10 @@ namespace Project.Code
 
             Console.WriteLine("Student:\n");
 
-            student.FirstName = newStudent.AddFirstName();
-            student.LastName = newStudent.AddLastName();
-            student.Gpa = newStudent.AddGpa();
-            student.Id = StudentIdGenerator.GetInstance.GenerateId();
+            student.FirstName    = newStudent.AddFirstName();
+            student.LastName     = newStudent.AddLastName();
+            student.Gpa          = newStudent.AddGpa();
+            student.Id           = StudentIdGenerator.GetInstance.GenerateId();
             StudentsContainer.AddStudentToList(student);
         }
 
