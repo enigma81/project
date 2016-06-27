@@ -32,18 +32,29 @@ namespace Project.Code
         }
     }
 
-    public static class StudentsContainer
+    public class StudentsContainer
     {
-        static List<Students> students = new List<Students>();
+        public static List<Students> students = new List<Students>();
 
         public static void AddStudentToList(Students student)
         {
             students.Add(student);
         }
 
-        public static List<Students> SortStudentList()
+        //public static List<Students> SortStudentList()
+        //{
+        //   return students.OrderBy(o => o.LastName).ToList();
+        //}
+        public static void SortStudentList()
         {
-            return students.OrderBy(o => o.LastName).ToList();
+            //students.Sort((s1, s2) => s1.LastName.CompareTo(s2.LastName));
+            Comparison<Students> sortByLastName = new Comparison<Students>(SortByLastName);
+            students.Sort(sortByLastName);
+        }
+
+        private static int SortByLastName(Students x, Students y)
+        {
+            return x.LastName.CompareTo(y.LastName);
         }
     }
 

@@ -56,11 +56,12 @@ namespace Project.Code
         //Funkcija za Display studenata
         public void DisplayStudents()
         {
-            List<Students> sortedStudents = StudentsContainer.SortStudentList();
+            //List<Students> sortedStudents = StudentsContainer.SortStudentList();
+            StudentsContainer.SortStudentList();
             int i = 1;
             Console.WriteLine("Students in a system:\n");
             Console.WriteLine("{0,-10}{1,-5}{2,-20}{3,-20}{4,5}\n", "Red.br.", "ID", "First name", "Last name", "Gpa");
-            foreach (Students student in sortedStudents)
+            foreach (Students student in StudentsContainer.students)
             {
                 Console.WriteLine(String.Format("{0}.         {1,-5}{2,-20}{3,-20}{4,-5}"
                         , i++, student.Id, student.FirstName, student.LastName, student.Gpa.ToString()));
