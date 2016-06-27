@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-
+using System.Reflection;
 using Project.Resources;
 using System.Collections.Generic;
 
@@ -12,14 +12,14 @@ namespace Project.Code
         {
             ValidatorMessage validation;
             string consoleInput;
-            var operationFields = typeof(Operations).GetFields();
+            FieldInfo[] operationFields = typeof(Operations).GetFields();
             var operationValidator = ValidatorFactory.CreateValidator<OperationValidator>();
             StringBuilder output = new StringBuilder();
 
             output.Append("Select operation: ");
             foreach (var field in operationFields)
             {
-                output.Append(field.GetValue(field).ToString()).Append(" \\");
+                output.Append(field.GetValue(field)).Append(" \\");
             }
 
             do

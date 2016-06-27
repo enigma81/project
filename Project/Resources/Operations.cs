@@ -1,6 +1,6 @@
 ﻿namespace Project.Resources
 {
-    public static class Operations
+    public class Operations
     {
         public const string enlist = "ENLIST";
         public const string display = "DISPLAY";

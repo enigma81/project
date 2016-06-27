@@ -17,13 +17,12 @@ namespace Project.Code
 
     abstract class Validator : IValidator
     {
-        ValidatorMessage validatorMessage;
         //protected void SetValidatorMessage(ValidatorMessage messageInstance,bool status, [Optional]string error)
         //{
         //    validatorMessage.Status = status;
         //    if(error != null)
         //        validatorMessage.Message = error;
-        //}
+        //}        
         protected void SetValidatorMessage(ValidatorMessage MessageInstance, bool status)
         {
             MessageInstance.Status = status;
@@ -54,6 +53,7 @@ namespace Project.Code
                 }
             }
             SetValidatorMessage(validatorMessage, false, ErrorText.ValidatorOperationError);
+            
             return validatorMessage;
         }
     }
