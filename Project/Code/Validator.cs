@@ -19,9 +19,9 @@ namespace Project.Code
     {
         //protected void SetValidatorMessage(ValidatorMessage messageInstance,bool status, [Optional]string error)
         //{
-        //    validatorMessage.Status = status;
+        //    messageInstance.Status = status;
         //    if(error != null)
-        //        validatorMessage.Message = error;
+        //        messageInstance.Message = error;
         //}        
         protected void SetValidatorMessage(ValidatorMessage MessageInstance, bool status)
         {
@@ -29,9 +29,8 @@ namespace Project.Code
         }
         protected void SetValidatorMessage(ValidatorMessage MessageInstance, bool status, string error)
         {
-            SetValidatorMessage(MessageInstance, status);
-            if (error != null)
-                MessageInstance.Message = error;
+            MessageInstance.Status = status;
+            MessageInstance.Message = error;
         }
     }
 

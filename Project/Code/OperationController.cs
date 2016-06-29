@@ -59,6 +59,7 @@ namespace Project.Code
             //List<Students> sortedStudents = StudentsContainer.SortStudentList();
             StudentsContainer.SortStudentList();
             int i = 1;
+            Console.Clear();
             Console.WriteLine("Students in a system:\n");
             Console.WriteLine("{0,-10}{1,-5}{2,-20}{3,-20}{4,5}\n", "Red.br.", "ID", "First name", "Last name", "Gpa");
             foreach (Students student in StudentsContainer.students)
