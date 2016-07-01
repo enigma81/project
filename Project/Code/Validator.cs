@@ -13,6 +13,21 @@ namespace Project.Code
     {
         public string Message { get; set; }
         public bool Status { get; set; }
+
+        public ValidatorMessage()
+        {
+            
+        }
+        public ValidatorMessage(bool Status)
+        {
+            this.Status = Status;
+        }
+
+        public ValidatorMessage(bool Status, string Error)
+        {
+            this.Status = Status;
+            Message = Error;
+        }
     }
 
     abstract class Validator : IValidator
@@ -37,7 +52,7 @@ namespace Project.Code
     #region Validator child classes
     class OperationValidator : Validator
     {
-        ValidatorMessage validatorMessage = new ValidatorMessage();
+        //ValidatorMessage validatorMessage = new ValidatorMessage();
         public ValidatorMessage ValidateOperation(string operation, FieldInfo[] operationFields)
         {
             if (!String.IsNullOrEmpty(operation))
@@ -46,14 +61,15 @@ namespace Project.Code
                 {
                     if (operation == field.GetValue(field).ToString())
                     {
-                        SetValidatorMessage(validatorMessage, true);
-                        return validatorMessage;
+                        //SetValidatorMessage(validatorMessage, true);
+                        return new ValidatorMessage(true);
                     }
                 }
             }
-            SetValidatorMessage(validatorMessage, false, ErrorText.ValidatorOperationError);
-            
-            return validatorMessage;
+            //SetValidatorMessage(validatorMessage, false, ErrorText.ValidatorOperationError);
+
+            return new ValidatorMessage(false, ErrorText.ValidatorOperationError);
+            //return validatorMessage;
         }
     }
 
