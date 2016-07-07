@@ -1,15 +1,13 @@
--       Validator klasa –  pogledati protected modifier
+1.       Console klasa ne bi trebala biti vidljiva i koristiti se u Project solutionu. Samo bi Project.App trebao imati operacije vezane za konzolu. Razmišljajte o tome kao da vam je Project solution service layer koji možete kasnije koristiti i za druge platforme osim konzole ( Desktop winforms ili wpf, web itd... ). Sve one klase i/ili metode koje koriste direktno Console read ili write trebaju biti izmjenjene, premještene ili obrisane te nanovo napisana logika koja æe išèitivata ili upisivati u konzolu u Project.App projektu.
 
--       Validator klasa i child klase, ima dosta ponavljanja koda, to se može premjestiti u protected metodu na base klasi, koja ce postaviti poruku.
+2.       S metodom SortStudentsList koju ste zakomentirali ste bili na dobrom putu. Probajte staviti rezultat te metode, to jest ono što ona vrati u varijablu.
 
--       Validator klasa, vraæati novu instancu poruke.       
+3.       Praksa imenovanja za klase , kao što je Students je da budu u jednini.
 
--       Mozda koristiti Pascal case za konstante ( prvo slovo veliko )
+4.       Probajte si pojednostavniti tako da vam Validator klase radi validaciju kao što je ime ili broj, umjesto NewPerson, NewStudent klasa.
 
--       Kreiranje Id-a je bolje staviti u metodu, nego na property.
+5.       SetValidationMessage mogu biti GetValidationMessage i vratiti novu instancu. Samim time se može pojednostavniti StudentsValidator klasa i može se izbjeæi korištenje jedne jedine insance ValidatiorMessage klase.
 
--       Sa singletona se metode mogu zvati direktno umjesto spremanja u field ... ( SingletonClass.Instance.Method() ) – OperationController linija 93
+6.       Klase StudentIdGenerator, Students (ispraviti ime prema toèki 3.) i StudentContainer trebaju biti svaka u zasebnoj datoteci
 
--       OperationController, ima ponavljanja koda, provjeriti koji dio se može premjestiti u methode.
-
--       Pogledati Console.WriteLine() i overloade. Može se i bez + operatora odraditi, èitljivije je
+7.       Na puno mjesta nemate postavljene access modifiere (private, protected…), potrebno je staviti ih na mjesta gdje nedostaju 

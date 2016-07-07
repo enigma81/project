@@ -3,21 +3,20 @@ using System.Linq;
 using System.Globalization;
 using System.Reflection;
 using Project.Resources;
-//using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace Project.Code
 {
     interface IValidator { }
 
-    class ValidatorMessage
+    public class ValidatorMessage
     {
         public string Message { get; set; }
         public bool Status { get; set; }
 
         public ValidatorMessage()
-        {
-            
-        }
+        { }
+
         public ValidatorMessage(bool Status)
         {
             this.Status = Status;
@@ -30,29 +29,16 @@ namespace Project.Code
         }
     }
 
-    abstract class Validator : IValidator
+    public class Validator : IValidator
     {
-        //protected void SetValidatorMessage(ValidatorMessage messageInstance,bool status, [Optional]string error)
-        //{
-        //    messageInstance.Status = status;
-        //    if(error != null)
-        //        messageInstance.Message = error;
-        //}        
-        protected void SetValidatorMessage(ValidatorMessage MessageInstance, bool status)
+        private ValidatorMessage GetValidatorMessage(bool status, [Optional]string error)
         {
-            MessageInstance.Status = status;
-        }
-        protected void SetValidatorMessage(ValidatorMessage MessageInstance, bool status, string error)
-        {
-            MessageInstance.Status = status;
-            MessageInstance.Message = error;
-        }
-    }
+            if (error != null)
+                return new ValidatorMessage(status, error);               
 
-    #region Validator child classes
-    class OperationValidator : Validator
-    {
-        //ValidatorMessage validatorMessage = new ValidatorMessage();
+            return new ValidatorMessage(status);
+        }
+
         public ValidatorMessage ValidateOperation(string operation, FieldInfo[] operationFields)
         {
             if (!String.IsNullOrEmpty(operation))
@@ -61,34 +47,22 @@ namespace Project.Code
                 {
                     if (operation == field.GetValue(field).ToString())
                     {
-                        //SetValidatorMessage(validatorMessage, true);
-                        return new ValidatorMessage(true);
+                        return GetValidatorMessage(true);
                     }
                 }
             }
-            //SetValidatorMessage(validatorMessage, false, ErrorText.ValidatorOperationError);
 
-            return new ValidatorMessage(false, ErrorText.ValidatorOperationError);
-            //return validatorMessage;
+            return GetValidatorMessage(false, ErrorText.ValidatorOperationError);
         }
-    }
 
-    class PersonValidator : Validator
-    {
-        ValidatorMessage validatorMessage = new ValidatorMessage();
         public ValidatorMessage ValidateName(string name)
         {
             if (String.IsNullOrEmpty(name) || !name.All(Char.IsLetter))
-                SetValidatorMessage(validatorMessage, false, ErrorText.ValidatorNameError);
+                return GetValidatorMessage(false, ErrorText.ValidatorNameError);
             else
-                SetValidatorMessage(validatorMessage, true);
-
-            return validatorMessage;
+                return GetValidatorMessage(true);
         }
-    }
-    class StudentsValidator : Validator
-    {
-        ValidatorMessage validatorMessage = new ValidatorMessage();
+
         public ValidatorMessage ValidateGpa(string inputGpa)
         {
             float gpa;
@@ -97,17 +71,15 @@ namespace Project.Code
             {
                 if (gpa >= 1 && gpa <= 5)
                 {
-                    SetValidatorMessage(validatorMessage, true);
-                    return validatorMessage;
+                    return GetValidatorMessage(true);
                 }
             }
 
-            SetValidatorMessage(validatorMessage, false, ErrorText.ValidatorGpaError);
-            return validatorMessage;
+            return GetValidatorMessage(false, ErrorText.ValidatorGpaError);
         }
     }
-    #endregion
-    class ValidatorFactory
+    
+    public class ValidatorFactory
     {
         internal static TValidatorType CreateValidator<TValidatorType>()
             where TValidatorType : IValidator, new()
