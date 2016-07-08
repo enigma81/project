@@ -30,7 +30,7 @@ namespace Project.Code
     }
 
     public class Validator : IValidator
-    {
+    {        
         private ValidatorMessage GetValidatorMessage(bool status, [Optional]string error)
         {
             if (error != null)
