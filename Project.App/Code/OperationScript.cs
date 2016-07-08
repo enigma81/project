@@ -7,11 +7,11 @@ namespace Project.App.Code
 {
     class OperationScript
     {
-        private FieldInfo[] operations = typeof(Operations).GetFields();
-        private Validator validator = new Validator();
-        private ValidatorMessage validatorMessage;
+        private FieldInfo[] m_operations = typeof(Operations).GetFields();
+        private Validator m_validator = new Validator();
+        private ValidatorMessage m_validatorMessage;
 
-        private string consoleInput;
+        private string m_consoleInput;
 
         // Build string output for console menu
         
@@ -19,29 +19,29 @@ namespace Project.App.Code
         { 
             do
             {
-                Console.WriteLine(ConsoleMenu());
-                consoleInput = Console.ReadLine().ToUpper();
-                validatorMessage = validator.ValidateOperation(consoleInput, operations);
+                DisplayConsoleMenu();
+                m_consoleInput = Console.ReadLine().ToUpper();
+                m_validatorMessage = m_validator.ValidateOperation(m_consoleInput, m_operations);
 
-                if (!validatorMessage.Status)
+                if (!m_validatorMessage.Status)
                 {
-                    ErrorDisplay.DisplayError(validatorMessage.Message);
+                    ErrorDisplay.DisplayError(m_validatorMessage.Message);
                 }
 
-            } while (validatorMessage.Status != true);
+            } while (m_validatorMessage.Status != true);
 
-            return consoleInput;
+            return m_consoleInput;
         }
 
-        private string ConsoleMenu()
+        private void DisplayConsoleMenu()
         {
             string menu = "Select operation: ";
 
-            foreach (var operation in operations)
+            foreach (var operation in m_operations)
             {
                 menu += operation.GetValue(operation) + " \\";
             }
-            return menu;
+            Console.WriteLine(menu);
         }
 
     }//OperationScript
