@@ -7,19 +7,25 @@ namespace Project.App
 {
     class OperationScript
     {
-        private FieldInfo[] m_operations = typeof(Operations).GetFields();
-        private Validator m_validator = new Validator();
+        private FieldInfo[] m_operations;
+        private Validator m_validator;
         private ValidatorMessage m_validatorMessage;
 
         private string m_consoleInput;
+        private string m_menu;
 
-        // Build string output for console menu
+        public OperationScript()
+        {
+            m_operations = typeof(Operations).GetFields();
+            m_validator = new Validator();
+            m_menu = GetConsoleMenu();
+        }        
         
         public string SelectOperation()
         { 
             do
             {
-                DisplayConsoleMenu();
+                Console.WriteLine(m_menu);
                 m_consoleInput = Console.ReadLine().ToUpper();
                 m_validatorMessage = m_validator.ValidateOperation(m_consoleInput, m_operations);
 
@@ -33,7 +39,7 @@ namespace Project.App
             return m_consoleInput;
         }
 
-        private void DisplayConsoleMenu()
+        private string GetConsoleMenu()
         {
             string menu = "Select operation: ";
 
@@ -41,7 +47,7 @@ namespace Project.App
             {
                 menu += operation.GetValue(operation) + " \\";
             }
-            Console.WriteLine(menu);
+            return menu;
         }
 
     }//OperationScript
