@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Project.App.Code
+namespace Project.App
 {
-    class ErrorDisplay
+    class DisplayError
     {
-        public static void DisplayError(string Message)
+        public static void Display(string Message)
         {
             Console.Clear();
             Console.BackgroundColor = ConsoleColor.Red;

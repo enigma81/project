@@ -1,5 +1,4 @@
 ﻿using Project.Resources;
-using Project.App.Code;
 
 namespace Project.App
 {
@@ -15,7 +14,6 @@ namespace Project.App
             // Loop program until exit is set to true
             while (!exit)
             {
-
                 // Switch SelectOperation against available operations
                 switch (operationScript.SelectOperation())
                 {
@@ -23,7 +21,7 @@ namespace Project.App
                         studentScript.EnlistStudent();
                         break;
                     case Operations.display:
-                        studentScript.DisplayStudents();
+                        DisplaySystemData.Display();
                         break;
                     case Operations.exit :
                         exit = true;

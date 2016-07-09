@@ -1,9 +1,8 @@
 ﻿using Project.Code;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 
-namespace Project.App.Code
+namespace Project.App
 {
     public class StudentScript
     {
@@ -23,23 +22,7 @@ namespace Project.App.Code
             m_student.Id = StudentIdGenerator.GetInstance.GenerateId();
 
             StudentContainer.AddStudentToList(m_student);
-        }
-
-        public void DisplayStudents()
-        {
-            List<Student> sortedStudents = StudentContainer.SortStudentList();
-            int i = 1;
-            Console.Clear();
-            Console.WriteLine("Students in a system:\n");
-            Console.WriteLine("{0,-10}{1,-5}{2,-20}{3,-20}{4,5}\n", "Red.br.", "ID", "First name", "Last name", "Gpa");
-            foreach (Student student in sortedStudents)
-            {
-                Console.WriteLine(String.Format("{0}.         {1,-5}{2,-20}{3,-20}{4,-5}"
-                        , i++, student.Id, student.FirstName, student.LastName, student.Gpa.ToString()));
-            }
-            Console.ReadKey();
-            Console.Clear();
-        }
+        } 
 
         private void UserInput(string Val)
         {
@@ -77,12 +60,12 @@ namespace Project.App.Code
                 }
                 else
                 {
-                    ErrorDisplay.DisplayError(m_validatorMessage.Message);
+                    DisplayError.Display(m_validatorMessage.Message);
                 }
 
             } while (m_validatorMessage.Status != true);
         }
 
-    }
-}
+    } // StudentScript
+}// Namespace
 

@@ -57,7 +57,7 @@ namespace Project.Code
 
         public ValidatorMessage ValidateName(string name)
         {
-            if (String.IsNullOrEmpty(name) || !name.All(Char.IsLetter))
+            if ((String.IsNullOrEmpty(name) || !name.All(Char.IsLetter)) || (name.Length < 2 || name.Length > 30))
                 return GetValidatorMessage(false, ErrorText.ValidatorNameError);
             else
                 return GetValidatorMessage(true);

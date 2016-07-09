@@ -3,7 +3,7 @@ using Project.Resources;
 using System;
 using System.Reflection;
 
-namespace Project.App.Code
+namespace Project.App
 {
     class OperationScript
     {
@@ -25,7 +25,7 @@ namespace Project.App.Code
 
                 if (!m_validatorMessage.Status)
                 {
-                    ErrorDisplay.DisplayError(m_validatorMessage.Message);
+                    DisplayError.Display(m_validatorMessage.Message);
                 }
 
             } while (m_validatorMessage.Status != true);
