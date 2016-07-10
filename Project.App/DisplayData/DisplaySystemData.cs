@@ -12,11 +12,10 @@ namespace Project.App
             Byte userInput = Convert.ToByte(Console.ReadLine());
             if (userInput == 1)
             {
-                Console.WriteLine("Sort by (1) First Name / (2) Last Name");
-                Byte sortInput = Convert.ToByte(Console.ReadLine());
-
-                m_display.DisplayStudents(sortInput);                           
-            }                
+                m_display.DisplayStudents();
+            }
+            else
+                return;               
         }
 
         private class DisplayFacade
@@ -29,9 +28,9 @@ namespace Project.App
             }
 
             // Method to call subsystem DisplayStudents
-            public void DisplayStudents(byte SortByVal)
+            public void DisplayStudents()
             {
-                m_displayStudents.Display(SortByVal);
+                m_displayStudents.Display();
             }
         }
     }// DisplaySystemData    

@@ -8,10 +8,13 @@ namespace Project.App
     {
         private List<Student> m_sortedStudents;
 
-        public void Display(byte SortByVal)
+        public void Display()
         {
-           m_sortedStudents = StudentContainer.SortStudentList(SortByVal);
-           View1(m_sortedStudents);
+            Console.WriteLine("Sort by (1) First Name / (2) Last Name");
+            Byte sortInput = Convert.ToByte(Console.ReadLine());
+
+            m_sortedStudents = StudentContainer.SortStudentList(sortInput);
+            View1(m_sortedStudents);
         }
 
         #region Views
