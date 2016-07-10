@@ -7,8 +7,6 @@ namespace Project.App
 {
     class OperationScript
     {
-        private FieldInfo[] m_operations;
-        private Validator m_validator;
         private ValidatorMessage m_validatorMessage;
 
         private string m_consoleInput;
@@ -16,8 +14,6 @@ namespace Project.App
 
         public OperationScript()
         {
-            m_operations = typeof(Operations).GetFields();
-            m_validator = new Validator();
             m_menu = GetConsoleMenu();
         }        
         
@@ -27,8 +23,8 @@ namespace Project.App
             {
                 Console.WriteLine(m_menu);
                 m_consoleInput = Console.ReadLine().ToUpper();
-                m_validatorMessage = m_validator.ValidateOperation(m_consoleInput, m_operations);
-
+                m_validatorMessage = Validator.IsValid(this, m_consoleInput);
+                
                 if (!m_validatorMessage.Status)
                 {
                     DisplayError.Display(m_validatorMessage.Message);
@@ -41,9 +37,10 @@ namespace Project.App
 
         private string GetConsoleMenu()
         {
+            FieldInfo[] operations = typeof(Operations).GetFields();
             string menu = "Select operation: ";
 
-            foreach (var operation in m_operations)
+            foreach (var operation in operations)
             {
                 menu += operation.GetValue(operation) + " \\";
             }

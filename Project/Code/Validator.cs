@@ -15,7 +15,7 @@ namespace Project.Code
         public bool Status { get; set; }
 
         public ValidatorMessage()
-        { }
+        {}
 
         public ValidatorMessage(bool Status)
         {
@@ -29,48 +29,41 @@ namespace Project.Code
         }
     }
 
-    public class Validator : IValidator
+    public class Validator
     {
-        private Byte m_minNameLength = 2;
-        private Byte m_maxNameLength =30;
+        private static FieldInfo[] m_operationFields = typeof(Operations).GetFields();
+        private static byte m_minNameLength = 2;
+        private static byte m_maxNameLength = 30;
 
-        private ValidatorMessage GetValidatorMessage(bool status, [Optional]string error)
+
+        public static ValidatorMessage IsValid(object Sender, object Input)
         {
-            if (error != null)
-                return new ValidatorMessage(status, error);               
-
-            return new ValidatorMessage(status);
-        }
-
-        public ValidatorMessage ValidateOperation(string operation, FieldInfo[] operationFields)
-        {
-            if (!String.IsNullOrEmpty(operation))
+            switch (Sender.GetType().Name)
             {
-                foreach (var field in operationFields)
-                {
-                    if (operation == field.GetValue(field).ToString())
+                case "OperationScript":
+                    return ValidateOperation(Input as String);
+
+                case "StudentScript":
+                    switch (Input.GetType().Name)
                     {
-                        return GetValidatorMessage(true);
+                        case "String":
+                            return ValidateName(Input as String);
+
+                      //case "Float":
+
                     }
-                }
+                    break;
+                default:
+                    break;
             }
 
-            return GetValidatorMessage(false, ErrorText.ValidatorOperationError);
+            return null;
         }
 
-        public ValidatorMessage ValidateName(string name)
-        {
-            if ((String.IsNullOrEmpty(name) || !name.All(Char.IsLetter)) || (name.Length < m_minNameLength || name.Length > m_maxNameLength))
-                return GetValidatorMessage(false, ErrorText.ValidatorNameError);
-            else
-                return GetValidatorMessage(true);
-        }
-
-        public ValidatorMessage ValidateGpa(string inputGpa)
+        public static ValidatorMessage ValidateGpa(string Gpa)
         {
             float gpa;
-
-            if (float.TryParse(inputGpa, NumberStyles.Number, CultureInfo.InvariantCulture.NumberFormat, out gpa))
+            if (float.TryParse(Gpa, NumberStyles.Number, CultureInfo.InvariantCulture.NumberFormat, out gpa))
             {
                 if (gpa >= 1 && gpa <= 5)
                 {
@@ -80,6 +73,39 @@ namespace Project.Code
 
             return GetValidatorMessage(false, ErrorText.ValidatorGpaError);
         }
+
+        private static ValidatorMessage GetValidatorMessage(bool status, [Optional]string error)
+        {
+            if (error != null)
+                return new ValidatorMessage(status, error);               
+            
+            return new ValidatorMessage(status);
+        }
+        
+        private static ValidatorMessage ValidateOperation(string Operation)
+        {
+            if (!String.IsNullOrEmpty(Operation))
+            {
+                foreach (var field in m_operationFields)
+                {
+                    if (Operation == field.GetValue(field).ToString())
+                    {
+                        return GetValidatorMessage(true);
+                    }
+                }
+            }
+
+            return GetValidatorMessage(false, ErrorText.ValidatorOperationError);
+        }
+
+        private static ValidatorMessage ValidateName(string Name)
+        {
+            if ((String.IsNullOrEmpty(Name) || !Name.All(Char.IsLetter)) || (Name.Length < m_minNameLength || Name.Length > m_maxNameLength))
+                return GetValidatorMessage(false, ErrorText.ValidatorNameError);
+            else
+                return GetValidatorMessage(true);
+        }
+        
     }
     
     public class ValidatorFactory

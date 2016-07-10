@@ -7,7 +7,6 @@ namespace Project.App
     public class StudentScript
     {
         private Student m_student;
-        private Validator m_validator = new Validator();
         private ValidatorMessage m_validatorMessage;
         private string m_consoleInput;
 
@@ -32,9 +31,11 @@ namespace Project.App
                 m_consoleInput = Console.ReadLine();
 
                 if (Val == "First Name" || Val == "Last Name")
-                    m_validatorMessage = m_validator.ValidateName(m_consoleInput);
+                    m_validatorMessage = Validator.IsValid(this, m_consoleInput);
                 else if (Val == "Gpa")
-                    m_validatorMessage = m_validator.ValidateGpa(m_consoleInput);
+                {
+                    m_validatorMessage = Validator.ValidateGpa(m_consoleInput);
+                }
                 else
                     return;
 
@@ -51,7 +52,7 @@ namespace Project.App
                             break;
 
                         case "Gpa":
-                            m_student.Gpa = float.Parse(m_consoleInput, CultureInfo.InvariantCulture);
+                            m_student.Gpa = float.Parse(m_consoleInput, NumberStyles.Number, CultureInfo.InvariantCulture);
                             break;
 
                         default:
