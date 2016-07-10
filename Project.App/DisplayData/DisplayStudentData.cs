@@ -8,21 +8,10 @@ namespace Project.App
     {
         private List<Student> m_sortedStudents;
 
-        public void Display(int SortByVal)
+        public void Display(byte SortByVal)
         {
-            switch (SortByVal)
-            {
-                case 1:
-                    // Sort by First Name
-                    break;
-                case 2:
-                    // Sort by Last Name
-                    m_sortedStudents = StudentContainer.SortStudentList();
-                    View1(m_sortedStudents);
-                    break;
-                default:
-                    break;
-            }
+           m_sortedStudents = StudentContainer.SortStudentList(SortByVal);
+           View1(m_sortedStudents);
         }
 
         #region Views

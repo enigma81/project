@@ -12,12 +12,23 @@ namespace Project.Code
             students.Add(student);
         }
 
-        public static List<Student> SortStudentList()
+        public static List<Student> SortStudentList(byte SortByVal)
         {
-            IOrderedEnumerable<Student> orderByLastName = 
-                students.OrderBy(o => o.LastName);
+            IOrderedEnumerable<Student> sortedStudents = students as IOrderedEnumerable<Student>;
 
-            return orderByLastName.ToList();
+            switch (SortByVal)
+            {
+                case 1:
+                    sortedStudents = students.OrderBy(o => o.FirstName);
+                    break;
+                case 2:
+                    sortedStudents = students.OrderBy(o => o.LastName);
+                    break;
+                default:
+                    break;
+            }              
+
+            return sortedStudents.ToList();
         }
     }
 }
