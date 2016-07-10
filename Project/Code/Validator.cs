@@ -30,7 +30,10 @@ namespace Project.Code
     }
 
     public class Validator : IValidator
-    {        
+    {
+        private Byte m_minNameLength = 2;
+        private Byte m_maxNameLength =30;
+
         private ValidatorMessage GetValidatorMessage(bool status, [Optional]string error)
         {
             if (error != null)
@@ -57,7 +60,7 @@ namespace Project.Code
 
         public ValidatorMessage ValidateName(string name)
         {
-            if ((String.IsNullOrEmpty(name) || !name.All(Char.IsLetter)) || (name.Length < 2 || name.Length > 30))
+            if ((String.IsNullOrEmpty(name) || !name.All(Char.IsLetter)) || (name.Length < m_minNameLength || name.Length > m_maxNameLength))
                 return GetValidatorMessage(false, ErrorText.ValidatorNameError);
             else
                 return GetValidatorMessage(true);
