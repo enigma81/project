@@ -1,34 +1,69 @@
-﻿using Project.Resources;
+﻿using Project.Code;
+using Project.Resources;
+using System;
 
 namespace Project.App
 {
-    class Program
+    class StudentProgram
     {
-        
-        static void Main(string[] args)
+        static void Main()
         {
-            bool exit = false;
-            StudentScript studentScript = new StudentScript();
-            OperationScript operationScript = new OperationScript();
-                        
-            // Loop program until exit is set to true
-            while (!exit)
-            {
-                // Switch SelectOperation against available operations
-                switch (operationScript.SelectOperation())
+            var runProgram       = true;
+            string consoleMenu   = GetConsoleMenu();
+            var validator        = new Validator();
+            var studentScript    = new StudentScript();
+
+            string userInput;
+            ValidatorMessage validation;
+
+            // Run program while runProgram is true 
+            while (runProgram)
+            {                
+                do
                 {
-                    case Operations.enlist:
-                        studentScript.EnlistStudent();
-                        break;
-                    case Operations.display:
-                        DisplaySystemData.Display();
-                        break;
-                    case Operations.exit :
-                        exit = true;
-                        break;
-                }
+                    // Display Console Menu
+                    Console.WriteLine(consoleMenu);
+                    
+                    userInput = Console.ReadLine().ToUpper();
+
+                    // Validate user input against available operations and get ValidatorMessage
+                    validation = validator.ValidateOperation(userInput);
+
+                    if (validation.Status)
+                    {
+                        switch (userInput)
+                        {
+                            case "ENLIST":
+                                studentScript.EnlistStudent(validator);
+                                break;
+                            case "DISPLAY":
+                                studentScript.Display();
+                                break;
+                            case "EXIT":
+                                runProgram = false;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        DisplayError.Display(validation.Message);
+                    }                        
+
+                } while (validation.Status != true);
+            }            
+        }
+
+        // Build a string for the Console Menu
+        private static string GetConsoleMenu()
+        {
+            string [] availableOperations = Enum.GetNames(typeof(Operation.AvailableOperations));
+            var menu = "Select operation: ";
+            
+            foreach (var operation in availableOperations)
+            {
+                menu += operation + " \\";
             }
-        }        
+            return menu;
+        }
     }//Program
 }//Namespace Project.App
-
