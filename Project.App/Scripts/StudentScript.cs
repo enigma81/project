@@ -1,7 +1,6 @@
 ﻿using Project.Code;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace Project.App
 {
@@ -12,6 +11,7 @@ namespace Project.App
         private Validator m_validator;
         private ValidatorMessage m_validatorMessage;
         private string m_userInput;
+        private enum SortOptions : byte { FirstName = 1, LastName };
 
         public void EnlistStudent(Validator Validator)
         {
@@ -30,15 +30,25 @@ namespace Project.App
         public void Display()
         {
             Console.WriteLine("Sort by (1) First Name / (2) Last Name");
-            var sortInput = Console.ReadLine();
+            byte sortInput = 0;
+
+            try
+            {                
+                sortInput = byte.Parse(Console.ReadLine());
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.ReadKey();
+            }    
 
             switch (sortInput)
             {
-                case "1":
+                case (byte)SortOptions.FirstName:
                     m_sortedStudents = StudentContainer.SortByFirstName();
                     break;
 
-                case "2":
+                case (byte)SortOptions.LastName:
                     m_sortedStudents = StudentContainer.SortByLastName();
                     break;
 
@@ -54,7 +64,7 @@ namespace Project.App
         {
             do
             {
-                Console.WriteLine("{0}:", StudentField);
+                Console.WriteLine($"{StudentField}:");
                 m_userInput = Console.ReadLine();
 
                 if (StudentField == "First Name")
@@ -79,7 +89,7 @@ namespace Project.App
                             break;
 
                         case "Gpa":
-                            m_student.Gpa = float.Parse(m_userInput, NumberStyles.Number, CultureInfo.InvariantCulture);
+                            m_student.Gpa = float.Parse(m_userInput);
                             break;
                     }
                 }
@@ -97,13 +107,12 @@ namespace Project.App
             int i = 1;
             Console.Clear();
             Console.WriteLine("Students in a system:\n");
-            Console.WriteLine("{0,-10}{1,-5}{2,-20}{3,-20}{4,5}\n", "Red.br.", "ID", "First name", "Last name", "Gpa");
-                        
+            Console.WriteLine($"{"Ord.No.",-10}{"ID",-5}{"First name",-20}{"Last name",-20}{"Gpa",5}\n");
+
             foreach (Student student in Students)
             {
-                Console.WriteLine(String.Format("{0}.         {1,-5}{2,-20}{3,-20}{4,-5}"
-                        , i++, student.Id, student.FirstName, student.LastName, student.Gpa.ToString()));
-            }          
+                Console.WriteLine($"{i++}{".", -9}{student.Id,-5}{student.FirstName,-20}{student.LastName,-20}{student.Gpa,5}");
+            }
 
             Console.ReadKey();
             Console.Clear();
