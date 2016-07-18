@@ -1,6 +1,7 @@
 ﻿using Project.Code;
 using Project.Resources;
 using System;
+using System.Text;
 
 namespace Project.App
 {
@@ -56,14 +57,16 @@ namespace Project.App
         // Build a string for the Console Menu
         private static string GetConsoleMenu()
         {
+            StringBuilder menu = new StringBuilder();
             string [] availableOperations = Enum.GetNames(typeof(Operation.AvailableOperations));
-            var menu = "Select operation: ";
+
+            menu.Append("Select operation: ");
             
             foreach (var operation in availableOperations)
             {
-                menu += operation + " \\";
+                menu.Append(operation).Append(" \\");
             }
-            return menu;
+            return menu.ToString();
         }
     }//Program
 }//Namespace Project.App

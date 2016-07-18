@@ -6,99 +6,105 @@ namespace Project.App
 {
     public class StudentScript
     {
-        private Student m_student;
-        private List<Student> m_sortedStudents;
-        private Validator m_validator;
-        private ValidatorMessage m_validatorMessage;
-        private string m_userInput;
-        private enum SortOptions : byte { FirstName = 1, LastName };
+        private const string FirstName = "First Name";
+        private const string LastName = "Last Name";
+        private const string Gpa = "Gpa";
 
+        private Student student;
+        private List<Student> sortedStudents;
+        private Validator validator;
+        private string userInput;
+        private enum SortOptions { FirstName = 1, LastName };
+        
         public void EnlistStudent(Validator Validator)
         {
-            m_student = new Student();
-            m_validator = Validator;
+            student = new Student();
+            validator = Validator;
 
-            StudentInput("First Name");
-            StudentInput("Last Name");
-            StudentInput("Gpa");
-
-            m_student.Id = StudentIdGenerator.GetInstance.GenerateId();
-
-            StudentContainer.AddStudentToList(m_student);
+            StudentInput(FirstName);
+            StudentInput(LastName);
+            StudentInput(Gpa);
+            
+            Console.WriteLine($"Save - {"Y",-5}N");
+            
+            if(Console.ReadLine().ToUpper() == "Y")
+            {
+                student.Id = StudentIdGenerator.GetInstance.GenerateId();
+                StudentContainer.GetInstance.AddStudentToList(student);
+            }
+                
         }
 
         public void Display()
         {
             Console.WriteLine("Sort by (1) First Name / (2) Last Name");
-            byte sortInput = 0;
-
-            try
-            {                
-                sortInput = byte.Parse(Console.ReadLine());
-            }
-            catch(Exception e)
+            
+            int sortInput;
+                        
+            if (int.TryParse(Console.ReadLine(), out sortInput))
             {
-                Console.WriteLine(e.Message);
-                Console.ReadKey();
-            }    
+                switch (sortInput)
+                {
+                    case (int)SortOptions.FirstName:
+                        sortedStudents = StudentContainer.GetInstance.SortByFirstName();
+                        break;
 
-            switch (sortInput)
-            {
-                case (byte)SortOptions.FirstName:
-                    m_sortedStudents = StudentContainer.SortByFirstName();
-                    break;
+                    case (int)SortOptions.LastName:
+                        sortedStudents = StudentContainer.GetInstance.SortByLastName();
+                        break;
 
-                case (byte)SortOptions.LastName:
-                    m_sortedStudents = StudentContainer.SortByLastName();
-                    break;
-
-                default:
-                    m_sortedStudents = StudentContainer.GetStudents();
-                    break;
+                    default:
+                        sortedStudents = StudentContainer.GetInstance.GetStudents();
+                        break;
+                }
             }
+            else
+                sortedStudents = StudentContainer.GetInstance.GetStudents();
 
-            View1(m_sortedStudents);
+            View1(sortedStudents);
         }
 
         private void StudentInput(string StudentField)
         {
+            ValidatorMessage validatorMessage;
+
             do
             {
                 Console.WriteLine($"{StudentField}:");
-                m_userInput = Console.ReadLine();
+                userInput = Console.ReadLine();
 
-                if (StudentField == "First Name")
-                    m_validatorMessage = m_validator.ValidateFirstName(m_userInput);
-                else if (StudentField == "Last Name")
-                    m_validatorMessage = m_validator.ValidateLastName(m_userInput);
-                else if (StudentField == "Gpa")
-                    m_validatorMessage = m_validator.ValidateGpa(m_userInput);                
+                if (StudentField == FirstName)
+                    validatorMessage = validator.ValidateFirstName(userInput);
+                else if (StudentField == LastName)
+                    validatorMessage = validator.ValidateLastName(userInput);
+                else if (StudentField == Gpa)
+                    validatorMessage = validator.ValidateGpa(userInput);                
                 else
                     return;
 
-                if (m_validatorMessage.Status)
+                if (validatorMessage.Status)
                 {
                     switch (StudentField)
                     {
-                        case "First Name":
-                            m_student.FirstName = m_userInput;
+                        case FirstName:
+                            student.FirstName = userInput;
                             break;
 
-                        case "Last Name":
-                            m_student.LastName = m_userInput;
+                        case LastName:
+                            student.LastName = userInput;
                             break;
 
-                        case "Gpa":
-                            m_student.Gpa = float.Parse(m_userInput);
+                        case Gpa:
+                            student.Gpa = float.Parse(userInput);
                             break;
                     }
                 }
                 else
                 {
-                    DisplayError.Display(m_validatorMessage.Message);
+                    DisplayError.Display(validatorMessage.Message);
                 }
 
-            } while (m_validatorMessage.Status != true);
+            } while (validatorMessage.Status != true);
         }
 
         #region Views

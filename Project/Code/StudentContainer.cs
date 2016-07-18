@@ -3,26 +3,40 @@ using System.Linq;
 
 namespace Project.Code
 {
-    public class StudentContainer
+    public sealed class StudentContainer
     {
-        private static List<Student> students = new List<Student>();
+        private static readonly StudentContainer instance = new StudentContainer();
+        private List<Student> students;
+
+        private StudentContainer()
+        {
+            students = new List<Student>();
+        }
+
+        public static StudentContainer GetInstance
+        {
+            get
+            {
+                return instance;
+            }
+        }
         
-        public static void AddStudentToList(Student student)
+        public void AddStudentToList(Student student)
         {
             students.Add(student);
         }
 
-        public static List<Student> GetStudents()
+        public List<Student> GetStudents()
         {
             return students;
         }
 
-        public static List<Student> SortByFirstName()
+        public List<Student> SortByFirstName()
         { 
             return students.OrderBy(o => o.FirstName).ToList();
         }
 
-        public static List<Student> SortByLastName()
+        public List<Student> SortByLastName()
         {
             return students.OrderBy(o => o.LastName).ToList();
         }
