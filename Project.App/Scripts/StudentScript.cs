@@ -6,24 +6,19 @@ namespace Project.App
 {
     public class StudentScript
     {
-        private const string FirstName = "First Name";
-        private const string LastName = "Last Name";
-        private const string Gpa = "Gpa";
-
         private Student student;
         private List<Student> sortedStudents;
         private Validator validator;
-        private string userInput;
-        private enum SortOptions { FirstName = 1, LastName };
+        private enum StudentField { FirstName = 1, LastName, Gpa };
         
         public void EnlistStudent(Validator Validator)
         {
             student = new Student();
             validator = Validator;
 
-            StudentInput(FirstName);
-            StudentInput(LastName);
-            StudentInput(Gpa);
+            StudentInput(StudentField.FirstName);
+            StudentInput(StudentField.LastName);
+            StudentInput(StudentField.Gpa);
             
             Console.WriteLine($"Save - {"Y",-5}N");
             
@@ -45,11 +40,11 @@ namespace Project.App
             {
                 switch (sortInput)
                 {
-                    case (int)SortOptions.FirstName:
+                    case (int)StudentField.FirstName:
                         sortedStudents = StudentContainer.GetInstance.SortByFirstName();
                         break;
 
-                    case (int)SortOptions.LastName:
+                    case (int)StudentField.LastName:
                         sortedStudents = StudentContainer.GetInstance.SortByLastName();
                         break;
 
@@ -64,20 +59,21 @@ namespace Project.App
             View1(sortedStudents);
         }
 
-        private void StudentInput(string StudentField)
+        private void StudentInput(StudentField StudentField)
         {
             ValidatorMessage validatorMessage;
+            string userInput;
 
             do
             {
                 Console.WriteLine($"{StudentField}:");
                 userInput = Console.ReadLine();
 
-                if (StudentField == FirstName)
+                if (StudentField == StudentField.FirstName)
                     validatorMessage = validator.ValidateFirstName(userInput);
-                else if (StudentField == LastName)
+                else if (StudentField == StudentField.LastName)
                     validatorMessage = validator.ValidateLastName(userInput);
-                else if (StudentField == Gpa)
+                else if (StudentField == StudentField.Gpa)
                     validatorMessage = validator.ValidateGpa(userInput);                
                 else
                     return;
@@ -86,15 +82,15 @@ namespace Project.App
                 {
                     switch (StudentField)
                     {
-                        case FirstName:
+                        case StudentField.FirstName:
                             student.FirstName = userInput;
                             break;
 
-                        case LastName:
+                        case StudentField.LastName:
                             student.LastName = userInput;
                             break;
 
-                        case Gpa:
+                        case StudentField.Gpa:
                             student.Gpa = float.Parse(userInput);
                             break;
                     }
